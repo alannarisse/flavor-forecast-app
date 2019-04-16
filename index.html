@@ -13,10 +13,40 @@
 
     <!--Main Body Of Page-->
     <body>
+
+        <!--Nav Bar-->
         <nav>
             <ul>
                 <li>Home</li>
+                <li>Login/Sign Up</li>
             </ul>
         </nav>
+
+        <div>
+            <head>
+                <h1>PAGE HEADLINE</h1>
+                <h2>Subhead subhead subhead subhead subhead subhead.</h2>
+            </head>
+
+            <!--Search Form-->
+            <form id="js-form">
+                <label for="search-weather"></label>
+                <input type="text" name="search-weather" id="js-search-weather" required>
+
+                <input type="submit" value="Search">
+            </form>
+
+            <!--Error Message-->
+            <p id="js-error-message"></p>
+
+            <!--Results Sectiion-->
+            <section>
+                <h3>RESULTS HEADLINE</h3>
+                <ul id="js-recpie-results-list"></ul>
+            </section>
+        </div>
+
+        <!--JavaScript File-->
+        <script src="index.js"></script>
     </body>
 </html>
