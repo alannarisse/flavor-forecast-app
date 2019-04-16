@@ -10,16 +10,16 @@ GAME PLAN:
             -   Do not actually need to display these results, we just need them to 
                 trigger other actions. 
     7.  Create GET request for Yummly API.
+            - Refer to #9, as you might need to combine with this function.
+            - Using the Search Recipes API call. 
     8.  Create a watchForm function and set up event listener that will trigger 
         the GET request to the MetaWeather API and the Yummly API upon submit.
-    9.  Create a function that sorts/filters recipes based on the MetaWeather GET 
-        request results. Then, call this function in #5.
-            -   If 80 degrees and up, show A; else if 50-79 degrees, show B; else if 35-50 
-                degrees, show C; else show D.
-            -   If Jan-March, feature A ingredients; else if April-June show B ingredients;
-                else if July-September show C ingredients; else show D ingredients.
-    10. Call the watchWeatherForm function using jQuery so it runs as soon as 
-        the page loads. 
+    9.  Create a function that searches recipes based on the MetaWeather GET request results. 
+        Then, call this function in #5.
+            -   If 80 degrees and up, search summer recipes; else if 50-79 degrees, search 
+                spring recipes; else if 35-50 degrees, search fall recipes; else, search 
+                winter recipes.
+    10. Call the watchWeatherForm function using jQuery so it runs as soon as the page loads. 
 
 QUESTIONS:
     1.  Everything we've learned so far hasn't loaded new pages when you click on things,
@@ -36,17 +36,18 @@ QUESTIONS:
 NOTES:
     -   Waiting for approval to use Yummly's API for academic purposes, otherwise the 
         cost is too high and you'll need to use the Spoonacular API.
+    -   What if we assign each season and weather ranges specific ingredients that are then 
+        used as parameters in a Yummly search. Ie: if it's 80 or higher, or June, it'll trigger 
+        a search for recipes that have tomatoes, or peaches, or strawberries, or salads in them. 
+
+HELPFUL LINKS:
+    -   Yummly API Documentation: https://developer.yummly.com/documentation
+    -   MetaWeather API Documentation: https://www.metaweather.com/api/
 
 */
 
 
 'use strict';
 
-//GET request for the weather API
-function getLocalWeather() {
-    fetch(`https://www.metaweather.com/api/location/search/?query=${location}`)
-        .then(response => response.json())
-        .then(responseJuson => showResults(responseJson, location))
-        .catch(error => alert("Something's gone wrong, please enter another location."));
-}
-
+const foodAPIKey = 'TBD';
+const searchURL = 'TBD';
