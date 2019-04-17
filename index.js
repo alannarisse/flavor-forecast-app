@@ -2,6 +2,7 @@
 
 GAME PLAN:
     2.  Set up foodAPIKey variable for Yummly API. 
+    3.  Set up base URL for MetaWeather API.
     6.  Create GET request for MetaWeather API (no authentication needed)
             -   Do not actually need to display these results, we just need them to 
                 trigger other actions. 
@@ -18,54 +19,39 @@ GAME PLAN:
                 winter recipes.
     10. Call the watchWeatherForm function using jQuery so it runs as soon as the page loads. 
 
-QUESTIONS:
-    1.  Everything we've learned so far hasn't loaded new pages when you click on things,
-        but modifies what you see on the current page. Is that really what you want 
-        when it comes to things like logging into accounts?
-            -   Note: Having an account is only needed so you can save recipes, which
-                is  a feature that will come later.
-    2.  This is all well and good for showing search results, but what do you want to do 
-        for viewing the actual recipe?
-            -   Options: Link them to the site it's being pulled from, or loading the 
-                content on your my site (will get out the door faster if you just 
-                link to another site).
-
 NOTES:
     -   Waiting for approval to use Yummly's API for academic purposes, otherwise the 
         cost is too high and you'll need to use the Spoonacular API.
-    -   What if we assign each season and weather ranges specific ingredients that are then 
-        used as parameters in a Yummly search. Ie: if it's 80 or higher, or June, it'll trigger 
-        a search for recipes that have tomatoes, or peaches, or strawberries, or salads in them.
     -   The key to getting the two Yummly Endpoints to talk to each other is through the ID
         (found in the Search Recipes API).
+    -   Need to find a new weather API
+            >   The API must find weather based on entering either location of zip. NOT lat and long.
 
 HELPFUL LINKS:
     -   Yummly API Documentation: https://developer.yummly.com/documentation
-    -   MetaWeather API Documentation: https://www.metaweather.com/api/
-
-DONE:
-    1.  Guard against accidental global variables with Use Strict.
-    3.  Set up a searchURL variable for Yummly API.
-    4.  Create a formatQueryParamsYummly function for Yummly API. 
-    5.  Create displayFoodResults function for Yummly API.
 
 */
 
 
 'use strict';
 
+//Sets up the Yummly API key and base URLs for use later.
 const foodAPIKey = 'TBD';
+const foodAPIId = 'TBD';
 const searchRecipesURL = 'http://api.yummly.com/v1/api/recipes';
-const getRecipesURL = 'http://api.yummly.com/v1/api/recipe';
+const getRecipesURL = 'http://api.yummly.com/v1/api/recipe/recipe-id';
 
-function formatQueryParamsYummly(params) {
-    const queryItems = Objectkeys(params)
-        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+//Converts the searchParams object into URL format. 
+function formatQueryParamsSearchRecipes(searchParams) {
+    const queryItems = Object.keys(searchParams)
+        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(searchParams[key])}`)
     return queryItems.join('&');
 }
 
+//Will display food search results in the DOM.
+//Also hyperlinks to recipe page on source website in a new tab.
 function displayFoodResults(responseJsonYummlyOne, responseJsonYummlyTwo) {
-    console.log(resopnseJson);
+    console.log(responseJsonYummlyOne, responseJsonYummlyTwo);
     $('#js-recipe-results-list').empty();
     for(let i=0; i<responseJsonYummlyOne.matches.length; i++) {
         $('#js-recipe-results-list').append(
@@ -73,4 +59,27 @@ function displayFoodResults(responseJsonYummlyOne, responseJsonYummlyTwo) {
             <h4><a href="${responseJsonYummlyTwo.attribution[i].url}" target="_blank">${responseJsonYummlyOne.matches[i].recipeName}</a></h4>`
         )};
     $('#results').removeClass('hidden');
+}
+
+//Search Recipes GET request to the Yummly API.
+function searchRecipes(query) {
+    const searchParams = {
+        _app_id: foodAPIId,
+        _app_key: foodAPIKey,
+        q: query,
+    };
+    const searchRecipesQueryString = formatQueryParamsSearchRecipes(searchParams);
+    const searchURL = searchRecipesURL + '?' + searchRecipesQueryString;
+    console.log(searchURL);
+    fetch (searchURL)
+        .then(response => {
+            if(response.ok) {
+                return response.json();
+            }
+            throw new Error(response.statusText);
+        })
+        .then(responseJsonYummlyOne => displayFoodResults(responseJsonYummlyOne, responseJsonYummlyTwo))
+        .catch(err => {
+            $('#js-error-message').text(`Something went wrong: ${err.message}`);
+        });
 }
