@@ -6,10 +6,6 @@ GAME PLAN:
     6.  Create GET request for MetaWeather API (no authentication needed)
             -   Do not actually need to display these results, we just need them to 
                 trigger other actions. 
-    7.  Create two GET requests to Yummly API. 
-            -   Refer to #9, as you might need to combine with this function.
-            -   One for the Search Recipes API call. 
-            -   One for the Get Recipes API call.
     8.  Create a watchForm function and set up event listener that will trigger 
         the GET request to the MetaWeather API and the Yummly API upon submit.
     9.  Create a function that searches recipes based on the MetaWeather GET request results. 
@@ -36,23 +32,15 @@ HELPFUL LINKS:
 
 'use strict';
 
-//Sets up the Yummly API key and base URLs for use later.
+//Sets up the Yummly API key and base URL for use later.
 const foodAPIKey = 'TBD';
 const foodAPIId = 'TBD';
 const searchRecipesURL = 'http://api.yummly.com/v1/api/recipes';
-const getRecipesURL = 'http://api.yummly.com/v1/api/recipe/recipe-id';
 
 //Converts the searchParams object into URL format. 
 function formatQueryParamsSearchRecipes(searchParams) {
     const queryItems = Object.keys(searchParams)
         .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(searchParams[key])}`)
-    return queryItems.join('&');
-}
-
-//Converts the getParams object into URL format.
-function formatQueryParamsGetRecipe(getParams) {
-    const queryItems = Object.keys(getParams)
-        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(getParams[key])}`)
     return queryItems.join('&');
 }
 
@@ -94,16 +82,9 @@ function searchRecipes(query) {
 
 //Get Recipes GET request to the Yummly API.
 function getRecipes() {
-    const recipeId = ${responseJsonYummlyOne.matches[i].id};
-    const getParams = {
-        _app_id: foodAPIId,
-        _app_key: foodAPIKey,
-        recipe-id: recipeId,
-    };
-    const getRecipeQueryString = formatQueryParamsGetRecipe(getParams);
-    const getURL = getRecipesURL + '?' + getRecipeQueryString;
-    console.log(getURL);
-    fetch (getURL)
+    let recipeID = `${responseJsonYummlyOne.matches[i].id}`
+    console.log();
+    fetch (`http://api.yummly.com/v1/api/recipe/recipe-id?${recipeID}_app_id=${foodAPIId}&_app_key=${foodAPIKey}`)
         .then(response => {
             if (response.ok) {
                 return response.json();
