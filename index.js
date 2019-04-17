@@ -1,28 +1,5 @@
 /*
 
-GAME PLAN:
-    2.  Set up foodAPIKey variable for Yummly API. 
-    3.  Set up base URL for MetaWeather API.
-    6.  Create GET request for MetaWeather API (no authentication needed)
-            -   Do not actually need to display these results, we just need them to 
-                trigger other actions. 
-    8.  Create a watchForm function and set up event listener that will trigger 
-        the GET request to the MetaWeather API and the Yummly API upon submit.
-    9.  Create a function that searches recipes based on the MetaWeather GET request results. 
-        Then, call this function in #5.
-            -   If 80 degrees and up, search summer recipes; else if 50-79 degrees, search 
-                spring recipes; else if 35-50 degrees, search fall recipes; else, search 
-                winter recipes.
-    10. Call the watchWeatherForm function using jQuery so it runs as soon as the page loads. 
-
-NOTES:
-    -   Waiting for approval to use Yummly's API for academic purposes, otherwise the 
-        cost is too high and you'll need to use the Spoonacular API.
-    -   The key to getting the two Yummly Endpoints to talk to each other is through the ID
-        (found in the Search Recipes API).
-    -   Need to find a new weather API
-            >   The API must find weather based on entering either location of zip. NOT lat and long.
-
 HELPFUL LINKS:
     -   Yummly API Documentation: https://developer.yummly.com/documentation
     -   Visual Inspo: https://www.loveandlemons.com/
