@@ -1,17 +1,14 @@
 /*
 
 GAME PLAN:
-    1.  Guard against accidental global variables with Use Strict.
     2.  Set up foodAPIKey variable for Yummly API. 
-    3.  Set up a searchURL variable for Yummly API.
-    4.  Create a formatQueryParamsYummly function for Yummly API. 
-    5.  Create displayFoodResults function for Yummly API.
     6.  Create GET request for MetaWeather API (no authentication needed)
             -   Do not actually need to display these results, we just need them to 
                 trigger other actions. 
-    7.  Create GET request for Yummly API.
-            - Refer to #9, as you might need to combine with this function.
-            - Using the Search Recipes API call. 
+    7.  Create two GET requests to Yummly API. 
+            -   Refer to #9, as you might need to combine with this function.
+            -   One for the Search Recipes API call. 
+            -   One for the Get Recipes API call.
     8.  Create a watchForm function and set up event listener that will trigger 
         the GET request to the MetaWeather API and the Yummly API upon submit.
     9.  Create a function that searches recipes based on the MetaWeather GET request results. 
@@ -38,11 +35,19 @@ NOTES:
         cost is too high and you'll need to use the Spoonacular API.
     -   What if we assign each season and weather ranges specific ingredients that are then 
         used as parameters in a Yummly search. Ie: if it's 80 or higher, or June, it'll trigger 
-        a search for recipes that have tomatoes, or peaches, or strawberries, or salads in them. 
+        a search for recipes that have tomatoes, or peaches, or strawberries, or salads in them.
+    -   The key to getting the two Yummly Endpoints to talk to each other is through the ID
+        (found in the Search Recipes API).
 
 HELPFUL LINKS:
     -   Yummly API Documentation: https://developer.yummly.com/documentation
     -   MetaWeather API Documentation: https://www.metaweather.com/api/
+
+DONE:
+    1.  Guard against accidental global variables with Use Strict.
+    3.  Set up a searchURL variable for Yummly API.
+    4.  Create a formatQueryParamsYummly function for Yummly API. 
+    5.  Create displayFoodResults function for Yummly API.
 
 */
 
@@ -50,10 +55,22 @@ HELPFUL LINKS:
 'use strict';
 
 const foodAPIKey = 'TBD';
-const searchURL = 'http://api.yummly.com/v1/api/recipes';
+const searchRecipesURL = 'http://api.yummly.com/v1/api/recipes';
+const getRecipesURL = 'http://api.yummly.com/v1/api/recipe';
 
 function formatQueryParamsYummly(params) {
     const queryItems = Objectkeys(params)
         .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
     return queryItems.join('&');
+}
+
+function displayFoodResults(responseJsonYummlyOne, responseJsonYummlyTwo) {
+    console.log(resopnseJson);
+    $('#js-recipe-results-list').empty();
+    for(let i=0; i<responseJsonYummlyOne.matches.length; i++) {
+        $('#js-recipe-results-list').append(
+            `<li><img src="${responseJsonYummlyOne.matches[i].smallImageUrls}" class="results-imgs">
+            <h4><a href="${responseJsonYummlyTwo.attribution[i].url}" target="_blank">${responseJsonYummlyOne.matches[i].recipeName}</a></h4>`
+        )};
+    $('#results').removeClass('hidden');
 }
