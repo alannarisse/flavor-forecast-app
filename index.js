@@ -29,6 +29,7 @@ NOTES:
 
 HELPFUL LINKS:
     -   Yummly API Documentation: https://developer.yummly.com/documentation
+    -   Visual Inspo: https://www.loveandlemons.com/
 
 */
 
@@ -45,6 +46,13 @@ const getRecipesURL = 'http://api.yummly.com/v1/api/recipe/recipe-id';
 function formatQueryParamsSearchRecipes(searchParams) {
     const queryItems = Object.keys(searchParams)
         .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(searchParams[key])}`)
+    return queryItems.join('&');
+}
+
+//Converts the getParams object into URL format.
+function formatQueryParamsGetRecipe(getParams) {
+    const queryItems = Object.keys(getParams)
+        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(getParams[key])}`)
     return queryItems.join('&');
 }
 
@@ -79,6 +87,30 @@ function searchRecipes(query) {
             throw new Error(response.statusText);
         })
         .then(responseJsonYummlyOne => displayFoodResults(responseJsonYummlyOne, responseJsonYummlyTwo))
+        .catch(err => {
+            $('#js-error-message').text(`Something went wrong: ${err.message}`);
+        });
+}
+
+//Get Recipes GET request to the Yummly API.
+function getRecipes() {
+    const recipeId = ${responseJsonYummlyOne.matches[i].id};
+    const getParams = {
+        _app_id: foodAPIId,
+        _app_key: foodAPIKey,
+        recipe-id: recipeId,
+    };
+    const getRecipeQueryString = formatQueryParamsGetRecipe(getParams);
+    const getURL = getRecipesURL + '?' + getRecipeQueryString;
+    console.log(getURL);
+    fetch (getURL)
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error(response.statusText);
+        })
+        .then(responseJsonYummlyTwo => displayFoodResults(responseJsonYummlyOne, responseJsonYummlyTwo))
         .catch(err => {
             $('#js-error-message').text(`Something went wrong: ${err.message}`);
         });
