@@ -50,4 +50,10 @@ HELPFUL LINKS:
 'use strict';
 
 const foodAPIKey = 'TBD';
-const searchURL = 'TBD';
+const searchURL = 'http://api.yummly.com/v1/api/recipes';
+
+function formatQueryParamsYummly(params) {
+    const queryItems = Objectkeys(params)
+        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+    return queryItems.join('&');
+}
