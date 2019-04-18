@@ -10,8 +10,8 @@ HELPFUL LINKS:
 'use strict';
 
 //Sets up the Yummly API key and base URL for use later.
-const foodAPIKey = 'TBD';
-const foodAPIId = 'TBD';
+const foodAPIKey = 'aadffa2b9aa15de8d665d0e2fc535945';
+const foodAPIId = '395836df';
 const searchRecipesURL = 'http://api.yummly.com/v1/api/recipes';
 
 //Converts the searchParams object into URL format. 
