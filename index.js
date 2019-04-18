@@ -16,7 +16,7 @@ const searchRecipesURL = 'http://api.yummly.com/v1/api/recipes';
 
 //Sets up the OpenWeatherMap API key and base URL for use later.
 const weatherAPIKey = '{2f7a503fe0fd1f5d22571fdf7757e5f4}';
-const weatherURL = 'http://api.openweathermap.org/data/2.5/weather?';
+const weatherURL = 'http://api.openweathermap.org/data/2.5/weather';
 
 //Converts the searchParams object into URL format. 
 function formatQueryParamsSearchRecipes(searchParams) {
@@ -32,11 +32,6 @@ function formatQueryParamsSearchRecipes(weatherParams) {
     return queryItems.join('&');
 }
 
-//Logs Weather Results to the console.
-function logWeatherResults(responseJsonWeather) {
-    console.log(responseJsonWeather);
-}
-
 //Will display food search results in the DOM.
 //Also hyperlinks to recipe page on source website in a new tab.
 function displayFoodResults(responseJsonYummlyOne, responseJsonYummlyTwo) {
@@ -48,29 +43,6 @@ function displayFoodResults(responseJsonYummlyOne, responseJsonYummlyTwo) {
             <h4><a href="${responseJsonYummlyTwo.attribution[i].url}" target="_blank">${responseJsonYummlyOne.matches[i].recipeName}</a></h4>`
         )};
     $('#results').removeClass('hidden');
-}
-
-//Search Recipes GET request to the Yummly API.
-function searchRecipes(query) {
-    const searchParams = {
-        _app_id: foodAPIId,
-        _app_key: foodAPIKey,
-        q: query,
-    };
-    const searchRecipesQueryString = formatQueryParamsSearchRecipes(searchParams);
-    const searchURL = searchRecipesURL + '?' + searchRecipesQueryString;
-    console.log(searchURL);
-    fetch (searchURL)
-        .then(response => {
-            if(response.ok) {
-                return response.json();
-            }
-            throw new Error(response.statusText);
-        })
-        .then(responseJsonYummlyOne => displayFoodResults(responseJsonYummlyOne, responseJsonYummlyTwo))
-        .catch(err => {
-            $('#js-error-message').text(`Something went wrong: ${err.message}`);
-        });
 }
 
 //Get Recipes GET request to the Yummly API.
@@ -90,11 +62,60 @@ function getRecipes() {
         });
 }
 
+//Search Recipes GET request to the Yummly API.
+function searchRecipes(foodQuery) {
+    const searchParams = {
+        _app_id: foodAPIId,
+        _app_key: foodAPIKey,
+        q: foodQuery,
+    };
+    const searchRecipesQueryString = formatQueryParamsSearchRecipes(searchParams);
+    const searchURL = searchRecipesURL + '?' + searchRecipesQueryString;
+    console.log(searchURL);
+    fetch (searchURL)
+        .then(response => {
+            if(response.ok) {
+                return response.json();
+            }
+            throw new Error(response.statusText);
+        })
+        .then(responseJsonYummlyOne => displayFoodResults(responseJsonYummlyOne, responseJsonYummlyTwo))
+        .catch(err => {
+            $('#js-error-message').text(`Something went wrong: ${err.message}`);
+        });
+}
+
+//Sends query to Yummly API based on logged weather.
+function watchWeatherLog() {
+    const triggerFoodQuery = `${responseJsonWeather.main[i].temp}`;
+    function {
+        if(triggerFoodQuery >= 80) {
+            let foodQuery = 'summer recipes';
+        }
+        else if(triggerFoodQuery >= 50, triggerFoodQuery <= 79 ) {
+            let foodQuery = 'spring recipes';
+        }
+        else if(triggerFoodQuery >= 35, triggerFoodQuery <= 49 ) {
+            let foodQuery = 'fall recipes';
+        }
+        else {
+            let foodQuery = 'winter recipes';
+        };
+    };
+    searchRecipes(foodQuery);
+}
+
+//Logs Weather Results to the console.
+function logWeatherResults(responseJsonWeather) {
+    console.log(responseJsonWeather);
+}
+
 //GET request to the Weather API.
 function getWeather(queryWeather) {
     const weatherParams = {
         APPID: weatherAPIKey,
         q: {queryWeather},
+        units: 'imperial',
     };
     const searchWeatherQueryString = formatQueryParamsSearchRecipes(weatherParams);
     const searchWeatherURL = weatherURL + '?' + searchWeatherQueryString;
@@ -111,3 +132,14 @@ function getWeather(queryWeather) {
             $('#js-error-message').text(`Something went wrong: ${err.message}`);
         });
 }
+
+//Watches form submission to trigger initial GET request to weather API.
+function watchForm() {
+    $('form').submit(event => {
+        event.preventDefault();
+        const queryWeather = $('#js-search-weather').val();
+        getWeather(queryWeather);
+    });
+}
+
+$(watchForm);
