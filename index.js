@@ -2,6 +2,7 @@
 
 HELPFUL LINKS:
     -   Yummly API Documentation: https://developer.yummly.com/documentation
+    -   Open Weather Map API Documentation: https://openweathermap.org/current
     -   Visual Inspo: https://www.loveandlemons.com/
 
 */
@@ -15,7 +16,7 @@ const searchRecipesURL = 'http://api.yummly.com/v1/api/recipes';
 
 //Sets up the OpenWeatherMap API key and base URL for use later.
 const weatherAPIKey = '2f7a503fe0fd1f5d22571fdf7757e5f4';
-const weatherURL = 'http://api.openweathermap.org/data/2.5/weather';
+const weatherURL = 'https://api.openweathermap.org/data/2.5/weather';
 
 //Converts the searchParams object into URL format. 
 function formatQueryParamsSearchRecipes(searchParams) {
@@ -25,7 +26,7 @@ function formatQueryParamsSearchRecipes(searchParams) {
 }
 
 //Converts the weatherParams object into URL format.
-function formatQueryParamsSearchRecipes(weatherParams) {
+function formatQueryWeatherParams(weatherParams) {
     const queryItems = Object.keys(weatherParams)
         .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(weatherParams[key])}`)
     return queryItems.join('&');
@@ -87,36 +88,34 @@ function searchRecipes(foodQuery) {
 //Sends query to Yummly API based on logged weather.
 function watchWeatherLog() {
     const triggerFoodQuery = `${responseJsonWeather.main.temp}`;
-    function {
+    for (let i=0; i<triggerFoodQuery.length; i++) {
         if(triggerFoodQuery >= 80) {
             let foodQuery = 'summer recipes';
         }
-        else if(triggerFoodQuery >= 50, triggerFoodQuery <= 79 ) {
+        else if(triggerFoodQuery >= 50, triggerFoodQuery <=79) {
             let foodQuery = 'spring recipes';
         }
-        else if(triggerFoodQuery >= 35, triggerFoodQuery <= 49 ) {
+        else if(triggerFoodQuery >= 35, triggerFoodQuery <= 49) {
             let foodQuery = 'fall recipes';
         }
         else {
             let foodQuery = 'winter recipes';
-        };
+        }
     };
     searchRecipes(foodQuery);
 }
 
-//Logs Weather Results to the console.
 function logWeatherResults(responseJsonWeather) {
     console.log(responseJsonWeather);
 }
 
-//GET request to the Weather API.
-function getWeather(queryWeather) {
+function getWeather(query) {
     const weatherParams = {
         APPID: weatherAPIKey,
-        q: queryWeather,
+        q: query,
         units: 'imperial',
     };
-    const searchWeatherQueryString = formatQueryParamsSearchRecipes(weatherParams);
+    const searchWeatherQueryString = formatQueryWeatherParams(weatherParams);
     const searchWeatherURL = weatherURL + '?' + searchWeatherQueryString;
     console.log(searchWeatherURL);
     fetch (searchWeatherURL)
@@ -132,7 +131,6 @@ function getWeather(queryWeather) {
         });
 }
 
-//Watches form submission to trigger initial GET request to weather API.
 function watchForm() {
     $('form').submit(event => {
         event.preventDefault();
