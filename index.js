@@ -14,11 +14,27 @@ const foodAPIKey = 'aadffa2b9aa15de8d665d0e2fc535945';
 const foodAPIId = '395836df';
 const searchRecipesURL = 'http://api.yummly.com/v1/api/recipes';
 
+//Sets up the OpenWeatherMap API key and base URL for use later.
+const weatherAPIKey = '{2f7a503fe0fd1f5d22571fdf7757e5f4}';
+const weatherURL = 'http://api.openweathermap.org/data/2.5/weather?';
+
 //Converts the searchParams object into URL format. 
 function formatQueryParamsSearchRecipes(searchParams) {
     const queryItems = Object.keys(searchParams)
         .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(searchParams[key])}`)
     return queryItems.join('&');
+}
+
+//Converts the weatherParams object into URL format.
+function formatQueryParamsSearchRecipes(weatherParams) {
+    const queryItems = Object.keys(weatherParams)
+        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(weatherParams[key])}`)
+    return queryItems.join('&');
+}
+
+//Logs Weather Results to the console.
+function logWeatherResults(responseJsonWeather) {
+    console.log(responseJsonWeather);
 }
 
 //Will display food search results in the DOM.
@@ -69,6 +85,28 @@ function getRecipes() {
             throw new Error(response.statusText);
         })
         .then(responseJsonYummlyTwo => displayFoodResults(responseJsonYummlyOne, responseJsonYummlyTwo))
+        .catch(err => {
+            $('#js-error-message').text(`Something went wrong: ${err.message}`);
+        });
+}
+
+//GET request to the Weather API.
+function getWeather(queryWeather) {
+    const weatherParams = {
+        APPID: weatherAPIKey,
+        q: {queryWeather},
+    };
+    const searchWeatherQueryString = formatQueryParamsSearchRecipes(weatherParams);
+    const searchWeatherURL = weatherURL + '?' + searchWeatherQueryString;
+    console.log(searchWeatherURL);
+    fetch (searchWeatherURL)
+        .then(response => {
+            if(response.ok) {
+                return response.json();
+            }
+            throw new Error(response.statusText);
+        })
+        .then(responseJsonWeather => logWeatherResults(responseJsonWeather))
         .catch(err => {
             $('#js-error-message').text(`Something went wrong: ${err.message}`);
         });
