@@ -6,7 +6,6 @@ HELPFUL LINKS:
 
 */
 
-
 'use strict';
 
 //Sets up the Yummly API key and base URL for use later.
@@ -15,7 +14,7 @@ const foodAPIId = '395836df';
 const searchRecipesURL = 'http://api.yummly.com/v1/api/recipes';
 
 //Sets up the OpenWeatherMap API key and base URL for use later.
-const weatherAPIKey = '{2f7a503fe0fd1f5d22571fdf7757e5f4}';
+const weatherAPIKey = '2f7a503fe0fd1f5d22571fdf7757e5f4';
 const weatherURL = 'http://api.openweathermap.org/data/2.5/weather';
 
 //Converts the searchParams object into URL format. 
@@ -87,7 +86,7 @@ function searchRecipes(foodQuery) {
 
 //Sends query to Yummly API based on logged weather.
 function watchWeatherLog() {
-    const triggerFoodQuery = `${responseJsonWeather.main[i].temp}`;
+    const triggerFoodQuery = `${responseJsonWeather.main.temp}`;
     function {
         if(triggerFoodQuery >= 80) {
             let foodQuery = 'summer recipes';
@@ -114,7 +113,7 @@ function logWeatherResults(responseJsonWeather) {
 function getWeather(queryWeather) {
     const weatherParams = {
         APPID: weatherAPIKey,
-        q: {queryWeather},
+        q: queryWeather,
         units: 'imperial',
     };
     const searchWeatherQueryString = formatQueryParamsSearchRecipes(weatherParams);
