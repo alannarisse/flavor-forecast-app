@@ -5,6 +5,12 @@ HELPFUL LINKS:
     -   Open Weather Map API Documentation: https://openweathermap.org/current
     -   Visual Inspo: https://www.loveandlemons.com/
 
+NOTES:
+    -   Yummly API search isn't triggering based on content logged to the console.
+            >   Try adding temp desults for the zipcode to the DOM, but keeping it hidden. 
+                Create an event listener (event handler) to watch for what's logged and then 
+                trigger the query based on what's there. 
+
 */
 
 'use strict';
@@ -88,7 +94,7 @@ function searchRecipes(foodQuery) {
 //Sends query to Yummly API based on logged weather.
 function watchWeatherLog() {
     const triggerFoodQuery = `${responseJsonWeather.main[i].temp}`;
-    for (let i=0; i<triggerFoodQuery.length; i++) {
+    for (let i=0; i==triggerFoodQuery; i++) {
         if(triggerFoodQuery >= 80) {
             let foodQuery = 'summer recipes';
         }
@@ -105,23 +111,29 @@ function watchWeatherLog() {
     searchRecipes(foodQuery);
 }
 
+/////////////////////////// FUNCTIONING  ///////////////////////////
 
-
-
-
+//Logs weather JSON object to the console
 function logWeatherResults(responseJsonWeather) {
     console.log(responseJsonWeather);
 }
 
+//GET request for Weather API
 function getWeather(query) {
+    
+    //Set up parameters for Weather API
     const weatherParams = {
         APPID: weatherAPIKey,
         zip: query,
         units: 'imperial',
     };
+
+    //Passes parameters through format function and creates a search URL
     const searchWeatherQueryString = formatQueryWeatherParams(weatherParams);
     const searchWeatherURL = weatherURL + '?' + searchWeatherQueryString;
     console.log(searchWeatherURL);
+
+    //Makes GET reuqest with the URL as an argument
     fetch (searchWeatherURL)
         .then(response => {
             if(response.ok) {
@@ -135,6 +147,7 @@ function getWeather(query) {
         });
 }
 
+//Watch form submission for zip code 
 function watchForm() {
     $('form').submit(event => {
         event.preventDefault();
@@ -143,4 +156,5 @@ function watchForm() {
     });
 }
 
+//Triggers function when page loads
 $(watchForm);
