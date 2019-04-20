@@ -87,7 +87,7 @@ function searchRecipes(foodQuery) {
 
 //Sends query to Yummly API based on logged weather.
 function watchWeatherLog() {
-    const triggerFoodQuery = `${responseJsonWeather.main.temp}`;
+    const triggerFoodQuery = `${responseJsonWeather.main[i].temp}`;
     for (let i=0; i<triggerFoodQuery.length; i++) {
         if(triggerFoodQuery >= 80) {
             let foodQuery = 'summer recipes';
@@ -105,6 +105,10 @@ function watchWeatherLog() {
     searchRecipes(foodQuery);
 }
 
+
+
+
+
 function logWeatherResults(responseJsonWeather) {
     console.log(responseJsonWeather);
 }
@@ -112,7 +116,7 @@ function logWeatherResults(responseJsonWeather) {
 function getWeather(query) {
     const weatherParams = {
         APPID: weatherAPIKey,
-        q: query,
+        zip: query,
         units: 'imperial',
     };
     const searchWeatherQueryString = formatQueryWeatherParams(weatherParams);
