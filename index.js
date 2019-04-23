@@ -5,11 +5,11 @@ HELPFUL LINKS:
     -   Open Weather Map API Documentation: https://openweathermap.org/current
     -   Visual Inspo: https://www.loveandlemons.com/
 
-NOTES:
-    -   Yummly API search isn't triggering based on content logged to the console.
-            >   Try adding temp desults for the zipcode to the DOM, but keeping it hidden. 
-                Create an event listener (event handler) to watch for what's logged and then 
-                trigger the query based on what's there. 
+*/
+
+'use strict';
+
+/////////////////////////// YUMMLY API CODE  ///////////////////////////
 
 //Sets up the Yummly API key and base URL for use later.
 const foodAPIKey = 'aadffa2b9aa15de8d665d0e2fc535945';
@@ -30,16 +30,15 @@ function displayFoodResults(responseJsonYummlyOne, responseJsonYummlyTwo) {
     $('#js-recipe-results-list').empty();
     for(let i=0; i<responseJsonYummlyOne.matches.length; i++) {
         $('#js-recipe-results-list').append(
-            `<li><img src="${responseJsonYummlyOne.matches[i].smallImageUrls}" class="results-imgs">
-            <h4><a href="${responseJsonYummlyTwo.attribution[i].url}" target="_blank">${responseJsonYummlyOne.matches[i].recipeName}</a></h4>`
+            `<li><img src="${responseJsonYummlyOne.matches.smallImageUrls}" class="results-imgs">
+            <h4><a href="${responseJsonYummlyTwo.attribution.url}" target="_blank">${responseJsonYummlyOne.matches.recipeName}</a></h4>`
         )};
-    $('#results').removeClass('hidden');
+    $('#js-recpie-results-list').removeClass('hidden');
 }
 
 //Get Recipes GET request to the Yummly API.
 function getRecipes() {
-    let recipeID = `${responseJsonYummlyOne.matches[i].id}`
-    console.log();
+    let recipeID = `${responseJsonYummlyOne.matches.id}`;
     fetch (`http://api.yummly.com/v1/api/recipe/recipe-id?${recipeID}_app_id=${foodAPIId}&_app_key=${foodAPIKey}`)
         .then(response => {
             if (response.ok) {
@@ -75,11 +74,8 @@ function searchRecipes(foodQuery) {
             $('#js-error-message').text(`Something went wrong: ${err.message}`);
         });
 }
-*/
 
-/////////////////////////// FUNCTIONING  ///////////////////////////
-
-'use strict';
+/////////////////////////// WEATHER API CODE  ///////////////////////////
 
 //Sets up the OpenWeatherMap API key and base URL for use later.
 const weatherAPIKey = '2f7a503fe0fd1f5d22571fdf7757e5f4';
@@ -92,39 +88,36 @@ function formatQueryWeatherParams(weatherParams) {
     return queryItems.join('&');
 }
 
-//Sends query to Yummly API based on logged weather.
-function handleEvent(event) {
-    const triggerFoodQuery = `${responseJsonWeather.main.temp}`;
-    for (let i=0; i < triggerFoodQuery; i++) {
-        if(triggerFoodQuery >= 80) {
-            let foodQuery = 'summer recipes';
-        }
-        else if(triggerFoodQuery >= 50, triggerFoodQuery <=79) {
-            let foodQuery = 'spring recipes';
-        }
-        else if(triggerFoodQuery >= 35, triggerFoodQuery <= 49) {
-            let foodQuery = 'fall recipes';
-        }
-        else {
-            let foodQuery = 'winter recipes';
-        }
-    };
+//Sends query to Yummly API based on logged weather
+function queryContents(triggerFoodQuery) {
+    if(triggerFoodQuery >= 80) {
+        let foodQuery = 'summer recipes';
+    }
+    else if(triggerFoodQuery >=50 & triggerFoodQuery <= 79) {
+        let foodQuery = 'spring recipes';
+    }
+    else if(triggerFoodQuery >= 35 & triggerFoodQuery <= 49) {
+        let foodQuery = 'fall recipes';
+    }
+    else {
+        let foodQuery ='winter recipes';
+    }
     searchRecipes(foodQuery);
 }
 
 //Create event listener for the weather added to the DOM
 function watchForWeather() {
-    let weather = document.querySelector('.js-weather');
-
-    weather.addEventListener('compositionupdate', handleEvent)
+    document.addEventListener('load', handleEvent => {
+        const triggerFoodQuery = `${responseJsonWeather.main.temp}`;
+        queryContents(triggerFoodQuery);
+    });
 }
 
 //Display weather results in the DOM (but keep hidden to user)
 function displayWeatherResults(responseJsonWeather) {
     console.log(responseJsonWeather);
-
     $('#js-weather-results').empty();
-    for(let i=0; i <= responseJsonWeather.main.temp; i++) {
+    for(let i=0; i < responseJsonWeather.main.temp; i++) {
         $('#js-weather-results').append(
             `<li class="js-weather">${responseJsonWeather.main.temp}</li>`
         )};
