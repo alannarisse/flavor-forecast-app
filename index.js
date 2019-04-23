@@ -92,6 +92,26 @@ function formatQueryWeatherParams(weatherParams) {
     return queryItems.join('&');
 }
 
+//Sends query to Yummly API based on logged weather.
+function handleEvent(event) {
+    const triggerFoodQuery = `${responseJsonWeather.main.temp}`;
+    for (let i=0; i < triggerFoodQuery; i++) {
+        if(triggerFoodQuery >= 80) {
+            let foodQuery = 'summer recipes';
+        }
+        else if(triggerFoodQuery >= 50, triggerFoodQuery <=79) {
+            let foodQuery = 'spring recipes';
+        }
+        else if(triggerFoodQuery >= 35, triggerFoodQuery <= 49) {
+            let foodQuery = 'fall recipes';
+        }
+        else {
+            let foodQuery = 'winter recipes';
+        }
+    };
+    searchRecipes(foodQuery);
+}
+
 //Create event listener for the weather added to the DOM
 function watchForWeather() {
     let weather = document.querySelector('.js-weather');
