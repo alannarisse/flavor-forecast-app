@@ -75,26 +75,7 @@ function searchRecipes(foodQuery) {
             $('#js-error-message').text(`Something went wrong: ${err.message}`);
         });
 }
-
-//Sends query to Yummly API based on logged weather.
-function watchWeatherLog() {
-    const triggerFoodQuery = `${responseJsonWeather.main[i].temp}`;
-    for (let i=0; i==triggerFoodQuery; i++) {
-        if(triggerFoodQuery >= 80) {
-            let foodQuery = 'summer recipes';
-        }
-        else if(triggerFoodQuery >= 50, triggerFoodQuery <=79) {
-            let foodQuery = 'spring recipes';
-        }
-        else if(triggerFoodQuery >= 35, triggerFoodQuery <= 49) {
-            let foodQuery = 'fall recipes';
-        }
-        else {
-            let foodQuery = 'winter recipes';
-        }
-    };
-    searchRecipes(foodQuery);
-}*/
+*/
 
 /////////////////////////// FUNCTIONING  ///////////////////////////
 
@@ -111,14 +92,21 @@ function formatQueryWeatherParams(weatherParams) {
     return queryItems.join('&');
 }
 
+//Create event listener for the weather added to the DOM
+function watchForWeather() {
+    let weather = document.querySelector('.js-weather');
+
+    weather.addEventListener('compositionupdate', handleEvent)
+}
+
 //Display weather results in the DOM (but keep hidden to user)
 function displayWeatherResults(responseJsonWeather) {
     console.log(responseJsonWeather);
 
     $('#js-weather-results').empty();
-    for(let i=0; i < responseJsonWeather.main.temp; i++) {
+    for(let i=0; i <= responseJsonWeather.main.temp; i++) {
         $('#js-weather-results').append(
-            `<li>${responseJsonWeather.main.temp}</li>`
+            `<li class="js-weather">${responseJsonWeather.main.temp}</li>`
         )};
 }
 
