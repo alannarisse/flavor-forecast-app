@@ -11,30 +11,15 @@ NOTES:
                 Create an event listener (event handler) to watch for what's logged and then 
                 trigger the query based on what's there. 
 
-*/
-
-'use strict';
-
 //Sets up the Yummly API key and base URL for use later.
 const foodAPIKey = 'aadffa2b9aa15de8d665d0e2fc535945';
 const foodAPIId = '395836df';
 const searchRecipesURL = 'http://api.yummly.com/v1/api/recipes';
 
-//Sets up the OpenWeatherMap API key and base URL for use later.
-const weatherAPIKey = '2f7a503fe0fd1f5d22571fdf7757e5f4';
-const weatherURL = 'https://api.openweathermap.org/data/2.5/weather';
-
 //Converts the searchParams object into URL format. 
 function formatQueryParamsSearchRecipes(searchParams) {
     const queryItems = Object.keys(searchParams)
         .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(searchParams[key])}`)
-    return queryItems.join('&');
-}
-
-//Converts the weatherParams object into URL format.
-function formatQueryWeatherParams(weatherParams) {
-    const queryItems = Object.keys(weatherParams)
-        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(weatherParams[key])}`)
     return queryItems.join('&');
 }
 
@@ -109,13 +94,32 @@ function watchWeatherLog() {
         }
     };
     searchRecipes(foodQuery);
-}
+}*/
 
 /////////////////////////// FUNCTIONING  ///////////////////////////
 
-//Logs weather JSON object to the console
-function logWeatherResults(responseJsonWeather) {
+'use strict';
+
+//Sets up the OpenWeatherMap API key and base URL for use later.
+const weatherAPIKey = '2f7a503fe0fd1f5d22571fdf7757e5f4';
+const weatherURL = 'https://api.openweathermap.org/data/2.5/weather';
+
+//Converts the weatherParams object into URL format.
+function formatQueryWeatherParams(weatherParams) {
+    const queryItems = Object.keys(weatherParams)
+        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(weatherParams[key])}`)
+    return queryItems.join('&');
+}
+
+//Display weather results in the DOM (but keep hidden to user)
+function displayWeatherResults(responseJsonWeather) {
     console.log(responseJsonWeather);
+
+    $('#js-weather-results').empty();
+    for(let i=0; i < responseJsonWeather.main.temp; i++) {
+        $('#js-weather-results').append(
+            `<li>${responseJsonWeather.main.temp}</li>`
+        )};
 }
 
 //GET request for Weather API
@@ -141,7 +145,7 @@ function getWeather(query) {
             }
             throw new Error(response.statusText);
         })
-        .then(responseJsonWeather => logWeatherResults(responseJsonWeather))
+        .then(responseJsonWeather => displayWeatherResults(responseJsonWeather))
         .catch(err => {
             $('#js-error-message').text(`Something went wrong: ${err.message}`);
         });
