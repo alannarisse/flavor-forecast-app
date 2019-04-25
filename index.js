@@ -28,19 +28,23 @@ function formatQueryParamsSearchRecipes(searchParams) {
 //Also hyperlinks to recipe page on source website in a new tab.
 function displayFoodResults(responseJsonYummlyOne, responseJsonYummlyTwo) {
     $('#js-recipe-results-list').empty();
-    for(let i=0; i<responseJsonYummlyOne.matches.length; i++) {
+    for(let i=0; i<responseJsonYummlyOne.length; i++) {
         $('#js-recipe-results-list').append(
-            `<li><h4>${responseJsonYummlyOne.matches[i].recipeName}</h4></li>`
+            `<li><img src=“${responseJsonYummlyTwo.images.hostedMediumUrl}” class=“results-imgs”>
+            <h4><a href=“${responseJsonYummlyTwo.source.sourceRecipeUrl}” target=“_blank”>${responseJsonYummlyOne.matches[i].recipeName}</a></h4>
+            </li>`
         )};
+
     $('#js-recpie-results-list').removeClass('hidden');
+    console.log('Recipes displayed in DOM');
 }
 
 //Get Recipes GET request to the Yummly API
-function getRecipes(recipeID) {
+function getRecipes(recipeId) {
     
     //Manually build the Get Recipes URL
-    const getURL = getRecipesURL + recipeID + '?_app_id=' + foodAPIId + '&_app_key=' + foodAPIKey;
-    console.log('Yummly get URL (for first match): ' + getURL);
+    const getURL = getRecipesURL + recipeId + '?_app_id=' + foodAPIId + '&_app_key=' + foodAPIKey;
+    console.log(getURL);
 
     fetch (getURL)
         .then(response => {
@@ -54,16 +58,20 @@ function getRecipes(recipeID) {
             $('#js-error-message').text(`Something went wrong: ${err.message}`);
         });
     
-    console.log('Can now display recipes from search results.');
+        console.log('The get recipes fetch is working!');
 }
 
-//Logs search results to the console and passes IDs to the next Yummly endpoint.
+//Creates variable to hold recipe IDs pulled from first Yummly endpoint.
 function logRecipeID(responseJsonYummlyOne) {
     console.log(responseJsonYummlyOne);
-    let i = 0;
-    const recipeID = responseJsonYummlyOne.matches[i].id;
+    let recipeId;
 
-    getRecipes(recipeID);
+    for (let i=0; i<responseJsonYummlyOne.matches.length; i++) {
+        recipeId = responseJsonYummlyOne.matches[i].id;
+        console.log('Recipe IDs for search results: ' + recipeId);
+    }
+    
+    getRecipes(recipeId);
 }
 
 //Search Recipes GET request to the Yummly API.
