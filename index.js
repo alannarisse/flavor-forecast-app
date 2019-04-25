@@ -14,7 +14,8 @@ HELPFUL LINKS:
 //Sets up the Yummly API key and base URL for use later.
 const foodAPIKey = 'aadffa2b9aa15de8d665d0e2fc535945';
 const foodAPIId = '395836df';
-const searchRecipesURL = 'http://api.yummly.com/v1/api/recipes';
+const searchRecipesURL = 'https://api.yummly.com/v1/api/recipes';
+const getRecipesURL = 'https://api.yummly.com/v1/api/recipe/recipe-';
 
 //Converts the searchParams object into URL format. 
 function formatQueryParamsSearchRecipes(searchParams) {
@@ -23,25 +24,43 @@ function formatQueryParamsSearchRecipes(searchParams) {
     return queryItems.join('&');
 }
 
+//Converts the getParams object into URL format. 
+function formatQueryParamsGetRecipes(getParams) {
+    const queryItems = Object.keys(getParams)
+        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(getParams[key])}`)
+    return queryItems.join('&');
+}
+
 //Will display food search results in the DOM.
 //Also hyperlinks to recipe page on source website in a new tab.
 function displayFoodResults(responseJsonYummlyOne, responseJsonYummlyTwo) {
-    console.log(responseJsonYummlyOne, responseJsonYummlyTwo);
     $('#js-recipe-results-list').empty();
     for(let i=0; i<responseJsonYummlyOne.matches.length; i++) {
         $('#js-recipe-results-list').append(
-            `<li><img src="${responseJsonYummlyOne.matches.smallImageUrls}" class="results-imgs">
-            <h4><a href="${responseJsonYummlyTwo.attribution.url}" target="_blank">${responseJsonYummlyOne.matches.recipeName}</a></h4>`
+            `<li><h4>${responseJsonYummlyOne.matches.recipeName}</h4></li>`
         )};
     $('#js-recpie-results-list').removeClass('hidden');
+
+    console.log()
 }
 
 //Get Recipes GET request to the Yummly API.
-function getRecipes() {
-    let recipeID = `${responseJsonYummlyOne.matches.id}`;
-    fetch (`http://api.yummly.com/v1/api/recipe/recipe-id?${recipeID}_app_id=${foodAPIId}&_app_key=${foodAPIKey}`)
+function getRecipes(responseJsonYummlyOne) {
+    let recipeID = responseJsonYummlyOne.matches.id;
+    
+    const getParams = {
+        id: recipeID,
+        _app_id: foodAPIId,
+        _app_key: foodAPIKey,
+    };
+
+    const getRecipesQueryString = formatQueryParamsGetRecipes(getParams);
+    const getURL = getRecipesURL + '?' + getRecipesQueryString;
+    console.log(getURL);
+
+    fetch (getURL)
         .then(response => {
-            if (response.ok) {
+            if(response.ok) {
                 return response.json();
             }
             throw new Error(response.statusText);
@@ -50,6 +69,8 @@ function getRecipes() {
         .catch(err => {
             $('#js-error-message').text(`Something went wrong: ${err.message}`);
         });
+    
+    console.log('Can now display recipes that from search results');
 }
 
 //Search Recipes GET request to the Yummly API.
@@ -59,9 +80,11 @@ function searchRecipes(foodQuery) {
         _app_key: foodAPIKey,
         q: foodQuery,
     };
+
     const searchRecipesQueryString = formatQueryParamsSearchRecipes(searchParams);
     const searchURL = searchRecipesURL + '?' + searchRecipesQueryString;
     console.log(searchURL);
+
     fetch (searchURL)
         .then(response => {
             if(response.ok) {
@@ -69,10 +92,12 @@ function searchRecipes(foodQuery) {
             }
             throw new Error(response.statusText);
         })
-        .then(responseJsonYummlyOne => displayFoodResults(responseJsonYummlyOne, responseJsonYummlyTwo))
+        .then(responseJsonYummlyOne => displayFoodResults(responseJsonYummlyOne))
         .catch(err => {
             $('#js-error-message').text(`Something went wrong: ${err.message}`);
         });
+    
+    console.log('Recipes successfully searched: ' + responseJsonYummlyOne);
 }
 
 /////////////////////////// WEATHER API CODE  ///////////////////////////
@@ -96,18 +121,18 @@ function queryContents(triggerFoodQuery) {
     
     //Assigns query string based on temperature logged in console
     if(triggerFoodQuery >= 80) {
-        foodQuery = 'summer recipes';
+        foodQuery = 'summer';
     }
     else if(triggerFoodQuery >=50 & triggerFoodQuery <= 79) {
-        foodQuery = 'spring recipes';
+        foodQuery = 'spring';
     }
     else if(triggerFoodQuery >= 35 & triggerFoodQuery <= 49) {
-        foodQuery = 'fall recipes';
+        foodQuery = 'fall';
     }
     else {
-        foodQuery ='winter recipes';
+        foodQuery ='winter';
     }
-    console.log('Yummly will search for ' + foodQuery);
+    console.log('Yummly will search: ' + foodQuery + ' recipes');
 
     //Passes query term to searchRecipes function
     searchRecipes(foodQuery);
@@ -118,7 +143,7 @@ function logWeatherResults(responseJsonWeather) {
     let triggerFoodQuery = responseJsonWeather.main.temp;
     queryContents(triggerFoodQuery);
 
-    console.log(triggerFoodQuery);
+    console.log('Current temp:' + triggerFoodQuery);
 }
 
 //GET request for Weather API
@@ -134,7 +159,7 @@ function getWeather(query) {
     //Passes parameters through format function and creates a search URL
     const searchWeatherQueryString = formatQueryWeatherParams(weatherParams);
     const searchWeatherURL = weatherURL + '?' + searchWeatherQueryString;
-    console.log(searchWeatherURL);
+    console.log('Search Weather URL: ' + searchWeatherURL);
 
     //Makes GET reuqest with the URL as an argument
     fetch (searchWeatherURL)
