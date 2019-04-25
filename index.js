@@ -15,7 +15,7 @@ HELPFUL LINKS:
 const foodAPIKey = 'aadffa2b9aa15de8d665d0e2fc535945';
 const foodAPIId = '395836df';
 const searchRecipesURL = 'https://api.yummly.com/v1/api/recipes';
-const getRecipesURL = 'https://api.yummly.com/v1/api/recipe/recipe-';
+const getRecipesURL = 'https://api.yummly.com/v1/api/recipe';
 
 //Converts the searchParams object into URL format. 
 function formatQueryParamsSearchRecipes(searchParams) {
@@ -70,7 +70,7 @@ function getRecipes(responseJsonYummlyOne) {
             $('#js-error-message').text(`Something went wrong: ${err.message}`);
         });
     
-    console.log('Can now display recipes that from search results');
+    console.log('Can now display recipes from search results');
 }
 
 //Search Recipes GET request to the Yummly API.
@@ -83,7 +83,7 @@ function searchRecipes(foodQuery) {
 
     const searchRecipesQueryString = formatQueryParamsSearchRecipes(searchParams);
     const searchURL = searchRecipesURL + '?' + searchRecipesQueryString;
-    console.log(searchURL);
+    console.log('Yummly search URL: ' + searchURL);
 
     fetch (searchURL)
         .then(response => {
@@ -92,13 +92,14 @@ function searchRecipes(foodQuery) {
             }
             throw new Error(response.statusText);
         })
-        .then(responseJsonYummlyOne => displayFoodResults(responseJsonYummlyOne))
+        .then(responseJsonYummlyOne => getRecipes(responseJsonYummlyOne))
         .catch(err => {
             $('#js-error-message').text(`Something went wrong: ${err.message}`);
         });
     
-    console.log('Recipes successfully searched: ' + responseJsonYummlyOne);
+    console.log('responseJsonYummlyOne');
 }
+
 
 /////////////////////////// WEATHER API CODE  ///////////////////////////
 
@@ -140,10 +141,12 @@ function queryContents(triggerFoodQuery) {
 
 //Logs temp to the console and passes it to the queryContents API
 function logWeatherResults(responseJsonWeather) {
-    let triggerFoodQuery = responseJsonWeather.main.temp;
-    queryContents(triggerFoodQuery);
+    console.log(responseJsonWeather);
 
-    console.log('Current temp:' + triggerFoodQuery);
+    let triggerFoodQuery = responseJsonWeather.main.temp;
+    console.log('Current temp: ' + triggerFoodQuery);
+
+    queryContents(triggerFoodQuery);
 }
 
 //GET request for Weather API
