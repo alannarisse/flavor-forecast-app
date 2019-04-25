@@ -90,37 +90,35 @@ function formatQueryWeatherParams(weatherParams) {
 
 //Sends query to Yummly API based on logged weather
 function queryContents(triggerFoodQuery) {
+    
+    //Set up a variable for later
+    let foodQuery;
+    
+    //Assigns query string based on temperature logged in console
     if(triggerFoodQuery >= 80) {
-        let foodQuery = 'summer recipes';
+        foodQuery = 'summer recipes';
     }
     else if(triggerFoodQuery >=50 & triggerFoodQuery <= 79) {
-        let foodQuery = 'spring recipes';
+        foodQuery = 'spring recipes';
     }
     else if(triggerFoodQuery >= 35 & triggerFoodQuery <= 49) {
-        let foodQuery = 'fall recipes';
+        foodQuery = 'fall recipes';
     }
     else {
-        let foodQuery ='winter recipes';
+        foodQuery ='winter recipes';
     }
+    console.log('Yummly will search for ' + foodQuery);
+
+    //Passes query term to searchRecipes function
     searchRecipes(foodQuery);
 }
 
-//Create event listener for the weather added to the DOM
-function watchForWeather() {
-    document.addEventListener('load', handleEvent => {
-        const triggerFoodQuery = `${responseJsonWeather.main.temp}`;
-        queryContents(triggerFoodQuery);
-    });
-}
+//Logs temp to the console and passes it to the queryContents API
+function logWeatherResults(responseJsonWeather) {
+    let triggerFoodQuery = responseJsonWeather.main.temp;
+    queryContents(triggerFoodQuery);
 
-//Display weather results in the DOM (but keep hidden to user)
-function displayWeatherResults(responseJsonWeather) {
-    console.log(responseJsonWeather);
-    $('#js-weather-results').empty();
-    for(let i=0; i < responseJsonWeather.main.temp; i++) {
-        $('#js-weather-results').append(
-            `<li class="js-weather">${responseJsonWeather.main.temp}</li>`
-        )};
+    console.log(triggerFoodQuery);
 }
 
 //GET request for Weather API
@@ -146,7 +144,7 @@ function getWeather(query) {
             }
             throw new Error(response.statusText);
         })
-        .then(responseJsonWeather => displayWeatherResults(responseJsonWeather))
+        .then(responseJsonWeather => logWeatherResults(responseJsonWeather))
         .catch(err => {
             $('#js-error-message').text(`Something went wrong: ${err.message}`);
         });
