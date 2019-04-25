@@ -28,6 +28,8 @@ function formatQueryParamsSearchRecipes(searchParams) {
 //Also hyperlinks to recipe page on source website in a new tab.
 function displayFoodResults(responseJsonYummlyOne, responseJsonYummlyTwo) {
     $('#js-recipe-results-list').empty();
+    
+    //FIXME: THIS LOOP NEEDS TO CREATE A LIST ITEM FOR EACH ENTRY IN THE recipeId ARRAY
     for(let i=0; i<responseJsonYummlyOne.length; i++) {
         $('#js-recipe-results-list').append(
             `<li><img src=“${responseJsonYummlyTwo.images.hostedMediumUrl}” class=“results-imgs”>
@@ -42,9 +44,14 @@ function displayFoodResults(responseJsonYummlyOne, responseJsonYummlyTwo) {
 //Get Recipes GET request to the Yummly API
 function getRecipes(recipeId) {
     
-    //Manually build the Get Recipes URL
-    const getURL = getRecipesURL + recipeId + '?_app_id=' + foodAPIId + '&_app_key=' + foodAPIKey;
-    console.log(getURL);
+    //Manually build the Get Recipes URL using a loop
+    let getURL;
+    
+    //FIXME: THIS LOOP NEEDS TO GENERATE A FETCH URL FOR EACH ITEM IN THE recipeId ARRAY 
+    for (let i=0; i<recipeId.length; i++) {
+        getURL = getRecipesURL + recipeId + '?_app_id=' + foodAPIId + '&_app_key=' + foodAPIKey;
+        console.log(getURL);
+    }
 
     fetch (getURL)
         .then(response => {
@@ -66,10 +73,11 @@ function logRecipeID(responseJsonYummlyOne) {
     console.log(responseJsonYummlyOne);
     let recipeId;
 
-    for (let i=0; i<responseJsonYummlyOne.matches.length; i++) {
+    //FIXME: THIS LOOP NEEDS TO MAKE A NEW ARRAY OF ID's FOR ALL THE SEARCH RESULTS
+     for (let i=0; i<responseJsonYummlyOne.matches.length; i++) {
         recipeId = responseJsonYummlyOne.matches[i].id;
         console.log('Recipe IDs for search results: ' + recipeId);
-    }
+    } 
     
     getRecipes(recipeId);
 }
