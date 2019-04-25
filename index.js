@@ -15,19 +15,12 @@ HELPFUL LINKS:
 const foodAPIKey = 'aadffa2b9aa15de8d665d0e2fc535945';
 const foodAPIId = '395836df';
 const searchRecipesURL = 'https://api.yummly.com/v1/api/recipes';
-const getRecipesURL = 'https://api.yummly.com/v1/api/recipe';
+const getRecipesURL = 'https://api.yummly.com/v1/api/recipe/';
 
 //Converts the searchParams object into URL format. 
 function formatQueryParamsSearchRecipes(searchParams) {
     const queryItems = Object.keys(searchParams)
         .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(searchParams[key])}`)
-    return queryItems.join('&');
-}
-
-//Converts the getParams object into URL format. 
-function formatQueryParamsGetRecipes(getParams) {
-    const queryItems = Object.keys(getParams)
-        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(getParams[key])}`)
     return queryItems.join('&');
 }
 
@@ -37,26 +30,17 @@ function displayFoodResults(responseJsonYummlyOne, responseJsonYummlyTwo) {
     $('#js-recipe-results-list').empty();
     for(let i=0; i<responseJsonYummlyOne.matches.length; i++) {
         $('#js-recipe-results-list').append(
-            `<li><h4>${responseJsonYummlyOne.matches.recipeName}</h4></li>`
+            `<li><h4>${responseJsonYummlyOne.matches[i].recipeName}</h4></li>`
         )};
     $('#js-recpie-results-list').removeClass('hidden');
-
-    console.log()
 }
 
-//Get Recipes GET request to the Yummly API.
-function getRecipes(responseJsonYummlyOne) {
-    let recipeID = responseJsonYummlyOne.matches.id;
+//Get Recipes GET request to the Yummly API
+function getRecipes(recipeID) {
     
-    const getParams = {
-        id: recipeID,
-        _app_id: foodAPIId,
-        _app_key: foodAPIKey,
-    };
-
-    const getRecipesQueryString = formatQueryParamsGetRecipes(getParams);
-    const getURL = getRecipesURL + '?' + getRecipesQueryString;
-    console.log(getURL);
+    //Manually build the Get Recipes URL
+    const getURL = getRecipesURL + recipeID + '?_app_id=' + foodAPIId + '&_app_key=' + foodAPIKey;
+    console.log('Yummly get URL (for first match): ' + getURL);
 
     fetch (getURL)
         .then(response => {
@@ -70,7 +54,16 @@ function getRecipes(responseJsonYummlyOne) {
             $('#js-error-message').text(`Something went wrong: ${err.message}`);
         });
     
-    console.log('Can now display recipes from search results');
+    console.log('Can now display recipes from search results.');
+}
+
+//Logs search results to the console and passes IDs to the next Yummly endpoint.
+function logRecipeID(responseJsonYummlyOne) {
+    console.log(responseJsonYummlyOne);
+    let i = 0;
+    const recipeID = responseJsonYummlyOne.matches[i].id;
+
+    getRecipes(recipeID);
 }
 
 //Search Recipes GET request to the Yummly API.
@@ -92,12 +85,10 @@ function searchRecipes(foodQuery) {
             }
             throw new Error(response.statusText);
         })
-        .then(responseJsonYummlyOne => getRecipes(responseJsonYummlyOne))
+        .then(responseJsonYummlyOne => logRecipeID(responseJsonYummlyOne))
         .catch(err => {
             $('#js-error-message').text(`Something went wrong: ${err.message}`);
         });
-    
-    console.log('responseJsonYummlyOne');
 }
 
 
