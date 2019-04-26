@@ -68,32 +68,58 @@ function getRecipes(recipeId) {
         console.log('The get recipes fetch is working!');
 }
 
-//Creates variable to hold recipe IDs pulled from first Yummly endpoint.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Logs recipe IDs to the console. 
 function logRecipeID(responseJsonYummlyOne) {
     console.log(responseJsonYummlyOne);
-    let recipeId;
+    
+    //Set up empty array to hold recipe IDs later.
+    let recipeId = [];
 
-    //FIXME: THIS LOOP NEEDS TO MAKE A NEW ARRAY OF ID's FOR ALL THE SEARCH RESULTS
+    //Loop makes an array of recipe IDs and logs them to the console.
      for (let i=0; i<responseJsonYummlyOne.matches.length; i++) {
-        recipeId = responseJsonYummlyOne.matches[i].id;
+        recipeId = 
+            [responseJsonYummlyOne.matches[0].id, responseJsonYummlyOne.matches[1].id,
+            responseJsonYummlyOne.matches[2].id, responseJsonYummlyOne.matches[3].id,
+            responseJsonYummlyOne.matches[4].id, responseJsonYummlyOne.matches[5].id,
+            responseJsonYummlyOne.matches[6].id, responseJsonYummlyOne.matches[7].id,
+            responseJsonYummlyOne.matches[8].id, responseJsonYummlyOne.matches[9].id];
         console.log('Recipe IDs for search results: ' + recipeId);
     } 
     
+    //Passes recipe ids to the getRecipes function. 
     getRecipes(recipeId);
 }
 
 //Search Recipes GET request to the Yummly API.
 function searchRecipes(foodQuery) {
+
+    //Sets up parameters for search endpoint. 
     const searchParams = {
         _app_id: foodAPIId,
         _app_key: foodAPIKey,
         q: foodQuery,
     };
 
+    //Passes parameters through format function and creates a search URL.
     const searchRecipesQueryString = formatQueryParamsSearchRecipes(searchParams);
     const searchURL = searchRecipesURL + '?' + searchRecipesQueryString;
     console.log('Yummly search URL: ' + searchURL);
 
+    //Makes GET reuqest with the URL as an argument.
     fetch (searchURL)
         .then(response => {
             if(response.ok) {
@@ -121,13 +147,13 @@ function formatQueryWeatherParams(weatherParams) {
     return queryItems.join('&');
 }
 
-//Sends query to Yummly API based on logged weather
+//Sends query to Yummly API based on logged weather.
 function queryContents(triggerFoodQuery) {
     
-    //Set up a variable for later
+    //Set up a variable for later.
     let foodQuery;
     
-    //Assigns query string based on temperature logged in console
+    //Assigns query string based on temperature logged in console.
     if(triggerFoodQuery >= 80) {
         foodQuery = 'summer';
     }
@@ -142,36 +168,37 @@ function queryContents(triggerFoodQuery) {
     }
     console.log('Yummly will search: ' + foodQuery + ' recipes');
 
-    //Passes query term to searchRecipes function
+    //Passes query string to searchRecipes function.
     searchRecipes(foodQuery);
 }
 
-//Logs temp to the console and passes it to the queryContents API
+//Logs temp to the console.
 function logWeatherResults(responseJsonWeather) {
     console.log(responseJsonWeather);
 
     let triggerFoodQuery = responseJsonWeather.main.temp;
     console.log('Current temp: ' + triggerFoodQuery);
 
+    //Passes current temperature to the queryContents function.
     queryContents(triggerFoodQuery);
 }
 
-//GET request for Weather API
+//GET request for Weather API.
 function getWeather(query) {
     
-    //Set up parameters for Weather API
+    //Sets up parameters for Weather API.
     const weatherParams = {
         APPID: weatherAPIKey,
         zip: query,
         units: 'imperial',
     };
 
-    //Passes parameters through format function and creates a search URL
+    //Passes parameters through format function and creates a search URL.
     const searchWeatherQueryString = formatQueryWeatherParams(weatherParams);
     const searchWeatherURL = weatherURL + '?' + searchWeatherQueryString;
     console.log('Search Weather URL: ' + searchWeatherURL);
 
-    //Makes GET reuqest with the URL as an argument
+    //Makes GET reuqest with the URL as an argument.
     fetch (searchWeatherURL)
         .then(response => {
             if(response.ok) {
@@ -185,7 +212,7 @@ function getWeather(query) {
         });
 }
 
-//Watch form submission for zip code 
+//Watch form submission for zip code.
 function watchForm() {
     $('form').submit(event => {
         event.preventDefault();
@@ -194,5 +221,5 @@ function watchForm() {
     });
 }
 
-//Triggers function when page loads
+//Triggers function when page loads.
 $(watchForm);
