@@ -24,16 +24,24 @@ function formatQueryParamsSearchRecipes(searchParams) {
     return queryItems.join('&');
 }
 
-//Log JSON object for each recipe from the get endpoint in the console. 
-function logRecipeURLs(responseJsonYummlyOne, responseJsonYummlyTwo) {
-    console.log(responseJsonYummlyTwo);
-
-    displayFoodResults(responseJsonYummlyOne, responseJsonYummlyTwo);
+//FIXME: Display results in the DOM.
+function displayResults(){
+    //To be filled in latah!
 }
 
+//FIXME: Log JSON object for each recipe from the get endpoint in the console. 
+function createSourceURLs(responseJsonYummlyTwo) {
+    console.log(responseJsonYummlyTwo);
+
+    let sourceURL = [responseJsonYummlyTwo.source.sourceRecipeUrl];
+    console.log(sourceURL);
+
+    let recipeImg = [responseJsonYummlyTwo.images[0].hostedMediumUrl];
+    console.log(recipeImg);
+}
 
 //Get Recipes GET request to the Yummly API.
-function getRecipes(getURL, responseJsonYummlyOne) {
+function getRecipes(getURL) {
     
     //Run a fetch for each of the URLs in the array.
     for(let i=0; i<getURL.length; i++) {
@@ -44,15 +52,15 @@ function getRecipes(getURL, responseJsonYummlyOne) {
                 }
                 throw new Error(response.statusText);
             })
-            .then(responseJsonYummlyTwo => logRecipeURLs(responseJsonYummlyOne, responseJsonYummlyTwo))
+            .then(responseJsonYummlyTwo => createSourceURLs(responseJsonYummlyTwo))
             .catch(err => {
                 $('js-error-message').text(`Something went wrong: ${err.message}`);
             });
     }
 }
 
-//Create recipe URLs using the recipe IDs from the previous function. 
-function createRecipeUrls(recipeId, responseJsonYummlyOne) {
+//FIXME: Create recipe URLs using the recipe IDs from the previous function. 
+function createRecipeUrls(recipeId) {
 
     //Manually build the Get Recipes URL for each recipe ID in a new array.
     let getURL =
@@ -67,18 +75,15 @@ function createRecipeUrls(recipeId, responseJsonYummlyOne) {
         getRecipesURL + recipeId[8] + '?_app_id=' + foodAPIId + '&_app_key=' + foodAPIKey, 
         getRecipesURL + recipeId[9] + '?_app_id=' + foodAPIId + '&_app_key=' + foodAPIKey];
 
-    //Log the array of URLs to the console.
-    console.log(getURL);
-
-    //Pass URLs, IDs, and the original JSON Object up to the getRecipes function.
-    getRecipes(getURL, responseJsonYummlyOne);
+        console.log(getURL);
+        getRecipes(getURL);
 }
  
-//Logs recipe IDs to the console. 
-function logRecipeID(responseJsonYummlyOne) {
+//FIXME: Logs recipe IDs to the console. 
+function createRecipeArrays(responseJsonYummlyOne) {
     console.log(responseJsonYummlyOne);
     
-    //Set up empty array to hold recipe IDs later.
+    //Set up recipe ID array.
     let recipeId =
         [responseJsonYummlyOne.matches[0].id, responseJsonYummlyOne.matches[1].id,
         responseJsonYummlyOne.matches[2].id, responseJsonYummlyOne.matches[3].id,
@@ -87,9 +92,18 @@ function logRecipeID(responseJsonYummlyOne) {
         responseJsonYummlyOne.matches[8].id, responseJsonYummlyOne.matches[9].id];
         
         console.log(recipeId);
-    
-    //Passes recipe IDs to the getRecipes function. 
-    createRecipeUrls(recipeId, responseJsonYummlyOne);
+        createRecipeUrls(recipeId);
+
+    //Set up recipe name array.
+    let recipeNames = 
+        [responseJsonYummlyOne.matches[0].recipeName, responseJsonYummlyOne.matches[1].recipeName,
+        responseJsonYummlyOne.matches[2].recipeName, responseJsonYummlyOne.matches[3].recipeName,
+        responseJsonYummlyOne.matches[4].recipeName, responseJsonYummlyOne.matches[5].recipeName,
+        responseJsonYummlyOne.matches[6].recipeName, responseJsonYummlyOne.matches[7].recipeName,
+        responseJsonYummlyOne.matches[8].recipeName, responseJsonYummlyOne.matches[9].recipeName,];
+
+        console.log(recipeNames);
+        displayResults(recipeNames);
 }
 
 //Search Recipes GET request to the Yummly API.
@@ -115,7 +129,7 @@ function searchRecipes(foodQuery) {
             }
             throw new Error(response.statusText);
         })
-        .then(responseJsonYummlyOne => logRecipeID(responseJsonYummlyOne))
+        .then(responseJsonYummlyOne => createRecipeArrays(responseJsonYummlyOne))
         .catch(err => {
             $('#js-error-message').text(`Something went wrong: ${err.message}`);
         });
