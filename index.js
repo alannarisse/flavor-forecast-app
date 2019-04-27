@@ -24,20 +24,14 @@ function formatQueryParamsSearchRecipes(searchParams) {
     return queryItems.join('&');
 }
 
-//FIXME: Display results in the DOM.
+//FIXME: Needs to display results in the DOM.
 function displayResults(){
-    //To be filled in latah!
+
 }
 
-//FIXME: Log JSON object for each recipe from the get endpoint in the console. 
-function createSourceURLs(responseJsonYummlyTwo) {
+//FIXME: Needs to add source URL and images to recipeArray.
+function updateRecipeArray(responseJsonYummlyTwo, recipeArray) {
     console.log(responseJsonYummlyTwo);
-
-    let sourceURL = [responseJsonYummlyTwo.source.sourceRecipeUrl];
-    console.log(sourceURL);
-
-    let recipeImg = [responseJsonYummlyTwo.images[0].hostedMediumUrl];
-    console.log(recipeImg);
 }
 
 //Get Recipes GET request to the Yummly API.
@@ -52,61 +46,86 @@ function getRecipes(getURL) {
                 }
                 throw new Error(response.statusText);
             })
-            .then(responseJsonYummlyTwo => createSourceURLs(responseJsonYummlyTwo))
+            .then(responseJsonYummlyTwo => updateRecipeArray(responseJsonYummlyTwo))
             .catch(err => {
                 $('js-error-message').text(`Something went wrong: ${err.message}`);
             });
     }
 }
 
-//FIXME: Create recipe URLs using the recipe IDs from the previous function. 
-function createRecipeUrls(recipeId) {
+//Create array of urls to feed into the get recipes endpoint of Yummly API.
+function createRecipeUrls(recipeArray) {
+    let getURL = [
+        getRecipesURL + recipeArray[0].recipeID + '?_app_id=' + foodAPIId + '&_app_key=' + foodAPIKey,
+        getRecipesURL + recipeArray[1].recipeID + '?_app_id=' + foodAPIId + '&_app_key=' + foodAPIKey,
+        getRecipesURL + recipeArray[2].recipeID + '?_app_id=' + foodAPIId + '&_app_key=' + foodAPIKey,
+        getRecipesURL + recipeArray[3].recipeID + '?_app_id=' + foodAPIId + '&_app_key=' + foodAPIKey,
+        getRecipesURL + recipeArray[4].recipeID + '?_app_id=' + foodAPIId + '&_app_key=' + foodAPIKey,
+        getRecipesURL + recipeArray[5].recipeID + '?_app_id=' + foodAPIId + '&_app_key=' + foodAPIKey,
+        getRecipesURL + recipeArray[6].recipeID + '?_app_id=' + foodAPIId + '&_app_key=' + foodAPIKey,
+        getRecipesURL + recipeArray[7].recipeID + '?_app_id=' + foodAPIId + '&_app_key=' + foodAPIKey,
+        getRecipesURL + recipeArray[8].recipeID + '?_app_id=' + foodAPIId + '&_app_key=' + foodAPIKey,
+        getRecipesURL + recipeArray[9].recipeID + '?_app_id=' + foodAPIId + '&_app_key=' + foodAPIKey,
+    ];
 
-    //Manually build the Get Recipes URL for each recipe ID in a new array.
-    let getURL =
-        [getRecipesURL + recipeId[0] + '?_app_id=' + foodAPIId + '&_app_key=' + foodAPIKey, 
-        getRecipesURL + recipeId[1] + '?_app_id=' + foodAPIId + '&_app_key=' + foodAPIKey, 
-        getRecipesURL + recipeId[2] + '?_app_id=' + foodAPIId + '&_app_key=' + foodAPIKey, 
-        getRecipesURL + recipeId[3] + '?_app_id=' + foodAPIId + '&_app_key=' + foodAPIKey, 
-        getRecipesURL + recipeId[4] + '?_app_id=' + foodAPIId + '&_app_key=' + foodAPIKey, 
-        getRecipesURL + recipeId[5] + '?_app_id=' + foodAPIId + '&_app_key=' + foodAPIKey, 
-        getRecipesURL + recipeId[6] + '?_app_id=' + foodAPIId + '&_app_key=' + foodAPIKey, 
-        getRecipesURL + recipeId[7] + '?_app_id=' + foodAPIId + '&_app_key=' + foodAPIKey, 
-        getRecipesURL + recipeId[8] + '?_app_id=' + foodAPIId + '&_app_key=' + foodAPIKey, 
-        getRecipesURL + recipeId[9] + '?_app_id=' + foodAPIId + '&_app_key=' + foodAPIKey];
-
-        console.log(getURL);
-        getRecipes(getURL);
+    console.log(getURL);
+    getRecipes(getURL);
 }
- 
-//FIXME: Logs recipe IDs to the console. 
-function createRecipeArrays(responseJsonYummlyOne) {
+
+//Create array of objects containing recipe name and ID for each search result.
+function createRecipeArray(responseJsonYummlyOne) {
     console.log(responseJsonYummlyOne);
-    
-    //Set up recipe ID array.
-    let recipeId =
-        [responseJsonYummlyOne.matches[0].id, responseJsonYummlyOne.matches[1].id,
-        responseJsonYummlyOne.matches[2].id, responseJsonYummlyOne.matches[3].id,
-        responseJsonYummlyOne.matches[4].id, responseJsonYummlyOne.matches[5].id,
-        responseJsonYummlyOne.matches[6].id, responseJsonYummlyOne.matches[7].id,
-        responseJsonYummlyOne.matches[8].id, responseJsonYummlyOne.matches[9].id];
-        
-        console.log(recipeId);
-        createRecipeUrls(recipeId);
 
-    //Set up recipe name array.
-    let recipeNames = 
-        [responseJsonYummlyOne.matches[0].recipeName, responseJsonYummlyOne.matches[1].recipeName,
-        responseJsonYummlyOne.matches[2].recipeName, responseJsonYummlyOne.matches[3].recipeName,
-        responseJsonYummlyOne.matches[4].recipeName, responseJsonYummlyOne.matches[5].recipeName,
-        responseJsonYummlyOne.matches[6].recipeName, responseJsonYummlyOne.matches[7].recipeName,
-        responseJsonYummlyOne.matches[8].recipeName, responseJsonYummlyOne.matches[9].recipeName,];
+    //Pulls what's needed from the search recipes endpoint JSON object.
+    const recipeArray = [
+        {
+            recipeName: responseJsonYummlyOne.matches[0].recipeName,
+            recipeID: responseJsonYummlyOne.matches[0].id
+        },
+        {
+            recipeName: responseJsonYummlyOne.matches[1].recipeName,
+            recipeID: responseJsonYummlyOne.matches[1].id
+        },
+        {
+            recipeName: responseJsonYummlyOne.matches[2].recipeName,
+            recipeID: responseJsonYummlyOne.matches[2].id
+        },
+        {
+            recipeName: responseJsonYummlyOne.matches[3].recipeName,
+            recipeID: responseJsonYummlyOne.matches[3].id
+        },
+        {
+            recipeName: responseJsonYummlyOne.matches[4].recipeName,
+            recipeID: responseJsonYummlyOne.matches[4].id
+        },
+        {
+            recipeName: responseJsonYummlyOne.matches[5].recipeName,
+            recipeID: responseJsonYummlyOne.matches[5].id
+        },
+        {
+            recipeName: responseJsonYummlyOne.matches[6].recipeName,
+            recipeID: responseJsonYummlyOne.matches[6].id
+        },
+        {
+            recipeName: responseJsonYummlyOne.matches[7].recipeName,
+            recipeID: responseJsonYummlyOne.matches[7].id
+        },
+        {
+            recipeName: responseJsonYummlyOne.matches[8].recipeName,
+            recipeID: responseJsonYummlyOne.matches[8].id
+        },
+        {
+            recipeName: responseJsonYummlyOne.matches[9].recipeName,
+            recipeID: responseJsonYummlyOne.matches[9].id
+        },
+    ];
 
-        console.log(recipeNames);
-        displayResults(recipeNames);
+    console.log(recipeArray);
+    createRecipeUrls(recipeArray);
+    updateRecipeArray(recipeArray);
 }
 
-//Search Recipes GET request to the Yummly API.
+//GET request to the search recipes endpoint of Yummly API.
 function searchRecipes(foodQuery) {
 
     //Sets up parameters for search endpoint. 
@@ -119,7 +138,7 @@ function searchRecipes(foodQuery) {
     //Passes parameters through format function and creates a search URL.
     const searchRecipesQueryString = formatQueryParamsSearchRecipes(searchParams);
     const searchURL = searchRecipesURL + '?' + searchRecipesQueryString;
-    console.log('Yummly search URL: ' + searchURL);
+    console.log(searchURL);
 
     //Makes GET reuqest with the URL as an argument.
     fetch (searchURL)
@@ -129,11 +148,12 @@ function searchRecipes(foodQuery) {
             }
             throw new Error(response.statusText);
         })
-        .then(responseJsonYummlyOne => createRecipeArrays(responseJsonYummlyOne))
+        .then(responseJsonYummlyOne => createRecipeArray(responseJsonYummlyOne))
         .catch(err => {
             $('#js-error-message').text(`Something went wrong: ${err.message}`);
         });
 }
+
 
 
 /////////////////////////// WEATHER API CODE  ///////////////////////////
@@ -168,9 +188,8 @@ function queryContents(triggerFoodQuery) {
     else {
         foodQuery ='winter';
     }
-    console.log('Yummly will search: ' + foodQuery + ' recipes');
 
-    //Passes query string to searchRecipes function.
+    console.log('Yummly will search: ' + foodQuery);
     searchRecipes(foodQuery);
 }
 
@@ -181,7 +200,6 @@ function logWeatherResults(responseJsonWeather) {
     let triggerFoodQuery = responseJsonWeather.main.temp;
     console.log('Current temp: ' + triggerFoodQuery);
 
-    //Passes current temperature to the queryContents function.
     queryContents(triggerFoodQuery);
 }
 
@@ -198,9 +216,10 @@ function getWeather(query) {
     //Passes parameters through format function and creates a search URL.
     const searchWeatherQueryString = formatQueryWeatherParams(weatherParams);
     const searchWeatherURL = weatherURL + '?' + searchWeatherQueryString;
-    console.log('Search Weather URL: ' + searchWeatherURL);
 
-    //Makes GET reuqest with the URL as an argument.
+    console.log(searchWeatherURL);
+
+    //Makes GET request with the URL as an argument.
     fetch (searchWeatherURL)
         .then(response => {
             if(response.ok) {
