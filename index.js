@@ -32,10 +32,23 @@ function displayResults(){
 //FIXME: Needs to add source URL and images to recipeArray.
 function updateRecipeArray(responseJsonYummlyTwo, recipeArray) {
     console.log(responseJsonYummlyTwo);
+
+   //if responseJsonYummlyTwo id matches the id in recipeArray, 
+    //then add new key value pairs for the image and source url of the recipe.
+    for(let i=0; i<responseJsonYummlyTwo.length & i<recipeArray.length; i++) {
+        if(responseJsonYummlyTwo[i].id === recipeArray[i].recipeID) {
+            recipeArray.recipeImage = responseJsonYummlyTwo[i].images[0].hostedMediumUrl;
+        }
+        if(responseJsonYummlyTwo[0].id === recipeArray[0].recipeID) {
+            recipeArray.recipeSourceUrl = responseJsonYummlyTwo[i].source.sourceRecipeUrl;
+        }
+    }
+
+    console.log(recipeArray);
 }
 
 //Get Recipes GET request to the Yummly API.
-function getRecipes(getURL) {
+function getRecipes(getURL, recipeArray) {
     
     //Run a fetch for each of the URLs in the array.
     for(let i=0; i<getURL.length; i++) {
@@ -46,7 +59,7 @@ function getRecipes(getURL) {
                 }
                 throw new Error(response.statusText);
             })
-            .then(responseJsonYummlyTwo => updateRecipeArray(responseJsonYummlyTwo))
+            .then(responseJsonYummlyTwo => updateRecipeArray(responseJsonYummlyTwo, recipeArray))
             .catch(err => {
                 $('js-error-message').text(`Something went wrong: ${err.message}`);
             });
@@ -69,7 +82,7 @@ function createRecipeUrls(recipeArray) {
     ];
 
     console.log(getURL);
-    getRecipes(getURL);
+    getRecipes(getURL, recipeArray);
 }
 
 //Create array of objects containing recipe name and ID for each search result.
@@ -77,7 +90,7 @@ function createRecipeArray(responseJsonYummlyOne) {
     console.log(responseJsonYummlyOne);
 
     //Pulls what's needed from the search recipes endpoint JSON object.
-    const recipeArray = [
+    let recipeArray = [
         {
             recipeName: responseJsonYummlyOne.matches[0].recipeName,
             recipeID: responseJsonYummlyOne.matches[0].id
@@ -122,7 +135,6 @@ function createRecipeArray(responseJsonYummlyOne) {
 
     console.log(recipeArray);
     createRecipeUrls(recipeArray);
-    updateRecipeArray(recipeArray);
 }
 
 //GET request to the search recipes endpoint of Yummly API.
