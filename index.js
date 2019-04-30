@@ -32,7 +32,7 @@ function displayResults(recipeInfo){
     for(let i=0; i<recipeInfo.length; i++) {
         $('#js-recpie-results-list').append(
             `<li><img src="${recipeInfo[0].image}">
-            <h4><a href="${recipeInfo[0].url}" target="_blank">${recipeInfo[0].name}</a></h4>`
+            <h3><a href="${recipeInfo[0].url}" target="_blank">${recipeInfo[0].name}</a></h3>`
         )};
     $('#results').removeClass('hidden');
 

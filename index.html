@@ -6,7 +6,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Seasonal Creations</title>
+        <title>Flavor Forecast</title>
         <link rel="stylesheet" href="main.css">
         <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     </head>
@@ -15,23 +15,16 @@
     <body>
 
         <!--Nav Bar-->
-        <nav>
-            <ul>
-                <li>Home</li>
-                <li class="hidden">Back</li>
-            </ul>
-        </nav>
-
         <div>
-            <head>
-                <h1>PAGE HEADLINE</h1>
-                <h2>Subhead subhead subhead subhead subhead subhead.</h2>
-            </head>
+            <header>
+                <h1>FLAVOR FORECAST</h1>
+                <p>Give us your zip code and we'll tell you what's for dinner based on the weather forecast in your area.</p>
+            </header>
 
             <!--Search Form-->
             <form id="js-form">
                 <label for="search-weather"></label>
-                <input type="text" name="search-weather" id="js-search-weather" required>
+                <input type="text" name="search-weather" id="js-search-weather" placeholder="zip code" required>
 
                 <input type="submit" value="Search">
             </form>
@@ -41,7 +34,7 @@
 
             <!--Results Sectiion-->
             <section id="results"> 
-                <h3 class="hidden">RESULTS HEADLINE</h3>
+                <h2 class="hidden">Your Recipes</h2>
                 <ul id="js-recpie-results-list" class="hidden"></ul>
             </section>
         </div>
