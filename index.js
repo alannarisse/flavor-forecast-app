@@ -25,14 +25,16 @@ function formatQueryParamsSearchRecipes(searchParams) {
 }
 
 //FIXME: Uses recipeInfo array to display results in the DOM. 
-function displayResults(recipeInfo){
+function displayResults(recipeInfo){  
     $('#js-recipe-results-list').empty();
 
-    for(let i=0; i<recipeInfo.length; i++) {
+    $('#js-recipe-results-list').append(
+        `<li>${recipeInfo[0].name}</li>`
+)
+
+    for(let i=1; i<recipeInfo.length; i++) {
         $('#js-recipe-results-list').append(
-            `<li><img src="${recipeInfo[i].images[0].hostedLargeUrl}">
-            <h3><a href="${recipeInfo[i].attribution.url}" target="_blank">${recipeInfo[i].name}</a></h3>
-            </li>`
+            `<li>${recipeInfo[i].name}</li>`
     )};
 
     $('#results').removeClass('hidden');
@@ -53,7 +55,7 @@ function getRecipes(getURL) {
             }
             throw new Error(response.statusText);
         })
-        .then(responseOne => recipeInfo.push(responseOne))
+        .then(responseOne => recipeInfo.push({name: responseOne.name, url: responseOne.attribution.url, image: responseOne.images[0].hostedLargeUrl}))
         .catch(err => {
             $('js-error-message').text(`Something went wrong: ${err.message}`);
         });
@@ -65,7 +67,7 @@ function getRecipes(getURL) {
             }
             throw new Error(response.statusText);
         })
-        .then(responseTwo => recipeInfo.push(responseTwo))
+        .then(responseTwo => recipeInfo.push({name: responseTwo.name, url: responseTwo.attribution.url, image: responseTwo.images[0].hostedLargeUrl}))
         .catch(err => {
             $('js-error-message').text(`Something went wrong: ${err.message}`);
         });
@@ -77,7 +79,7 @@ function getRecipes(getURL) {
             }
             throw new Error(response.statusText);
         })
-        .then(responseThree => recipeInfo.push(responseThree))
+        .then(responseThree => recipeInfo.push({name: responseThree.name, url: responseThree.attribution.url, image: responseThree.images[0].hostedLargeUrl}))
         .catch(err => {
             $('js-error-message').text(`Something went wrong: ${err.message}`);
         });
@@ -89,7 +91,7 @@ function getRecipes(getURL) {
             }
             throw new Error(response.statusText);
         })
-        .then(responseFour => recipeInfo.push(responseFour))
+        .then(responseFour => recipeInfo.push({name: responseFour.name, url: responseFour.attribution.url, image: responseFour.images[0].hostedLargeUrl}))
         .catch(err => {
             $('js-error-message').text(`Something went wrong: ${err.message}`);
         });
@@ -101,7 +103,7 @@ function getRecipes(getURL) {
             }
             throw new Error(response.statusText);
         })
-        .then(responseFive => recipeInfo.push(responseFive))
+        .then(responseFive => recipeInfo.push({name: responseFive.name, url: responseFive.attribution.url, image: responseFive.images[0].hostedLargeUrl}))
         .catch(err => {
             $('js-error-message').text(`Something went wrong: ${err.message}`);
         });
@@ -113,7 +115,7 @@ function getRecipes(getURL) {
             }
             throw new Error(response.statusText);
         })
-        .then(responseSix => recipeInfo.push(responseSix))
+        .then(responseSix => recipeInfo.push({name: responseSix.name, url: responseSix.attribution.url, image: responseSix.images[0].hostedLargeUrl}))
         .catch(err => {
             $('js-error-message').text(`Something went wrong: ${err.message}`);
         });
@@ -125,7 +127,7 @@ function getRecipes(getURL) {
             }
             throw new Error(response.statusText);
         })
-        .then(responseSeven => recipeInfo.push(responseSeven))
+        .then(responseSeven => recipeInfo.push({name: responseSeven.name, url: responseSeven.attribution.url, image: responseSeven.images[0].hostedLargeUrl}))
         .catch(err => {
             $('js-error-message').text(`Something went wrong: ${err.message}`);
         });
@@ -137,7 +139,7 @@ function getRecipes(getURL) {
             }
             throw new Error(response.statusText);
         })
-        .then(responseEight => recipeInfo.push(responseEight))
+        .then(responseEight => recipeInfo.push({name: responseEight.name, url: responseEight.attribution.url, image: responseEight.images[0].hostedLargeUrl}))
         .catch(err => {
             $('js-error-message').text(`Something went wrong: ${err.message}`);
         });
@@ -149,7 +151,7 @@ function getRecipes(getURL) {
             }
             throw new Error(response.statusText);
         })
-        .then(responseNine => recipeInfo.push(responseNine))
+        .then(responseNine => recipeInfo.push({name: responseNine.name, url: responseNine.attribution.url, image: responseNine.images[0].hostedLargeUrl}))
         .catch(err => {
             $('js-error-message').text(`Something went wrong: ${err.message}`);
         });
@@ -161,7 +163,7 @@ function getRecipes(getURL) {
             }
             throw new Error(response.statusText);
         })
-        .then(responseTen => recipeInfo.push(responseTen))
+        .then(responseTen => recipeInfo.push({name: responseTen.name, url: responseTen.attribution.url, image: responseTen.images[0].hostedLargeUrl}))
         .catch(err => {
             $('js-error-message').text(`Something went wrong: ${err.message}`);
         });
