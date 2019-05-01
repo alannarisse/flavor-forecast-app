@@ -28,51 +28,148 @@ function formatQueryParamsSearchRecipes(searchParams) {
 //FIXME: Also need to figure out how to display images. currently it isn't working.
 function displayResults(recipeInfo){
 
-    $('#js-recpie-results-list').empty();
+    $('#js-recipe-results-list').empty();
+
     for(let i=0; i<recipeInfo.length; i++) {
-        $('#js-recpie-results-list').append(
-            `<li><img src="${recipeInfo[0].image}">
-            <h3><a href="${recipeInfo[0].url}" target="_blank">${recipeInfo[0].name}</a></h3>`
+        $('#js-recipe-results-list').append(
+            `<li><img src="${recipeInfo[i].images[0].hostedLargeUrl}">
+            <h3><a href="${recipeInfo[i].attribution.url}" target="_blank">${recipeInfo[i].name}</a></h3>
+            </li>`
         )};
     $('#results').removeClass('hidden');
 
-    console.log('Everything is displaying!');
+    console.log('You can now eat all the things.');
 }
 
-//FIXME: (Maybe,technically this is working)
-// Creates a new array with recipe name, url, and image.
-function newRecipeArray(responseJsonYummlyTwo) {
-    console.log(responseJsonYummlyTwo);
+//Get Recipes GET request to the Yummly API.
+function getRecipes(getURL) {
+    
+    //Will feed the JSON objects into this empty aray.
+    const recipeInfo = [];
 
-    let recipeInfo = [
-        {
-        name: responseJsonYummlyTwo.name,
-        url: responseJsonYummlyTwo.attribution.url,
-        image: responseJsonYummlyTwo.images[0].hostedLargeUrl
-        }
-    ];
+   //Run a fetch for each of the URLs in the array. 
+    fetch(getURL[0])
+        .then(response => {
+            if(response.ok){
+                return response.json();
+            }
+            throw new Error(response.statusText);
+        })
+        .then(responseOne => recipeInfo.push(responseOne))
+        .catch(err => {
+            $('js-error-message').text(`Something went wrong: ${err.message}`);
+        });
+
+    fetch(getURL[1])
+        .then(response => {
+            if(response.ok){
+                return response.json();
+            }
+            throw new Error(response.statusText);
+        })
+        .then(responseTwo => recipeInfo.push(responseTwo))
+        .catch(err => {
+            $('js-error-message').text(`Something went wrong: ${err.message}`);
+        });
+    
+    fetch(getURL[2])
+        .then(response => {
+            if(response.ok){
+                return response.json();
+            }
+            throw new Error(response.statusText);
+        })
+        .then(responseThree => recipeInfo.push(responseThree))
+        .catch(err => {
+            $('js-error-message').text(`Something went wrong: ${err.message}`);
+        });
+    
+    fetch(getURL[3])
+        .then(response => {
+            if(response.ok){
+                return response.json();
+            }
+            throw new Error(response.statusText);
+        })
+        .then(responseFour => recipeInfo.push(responseFour))
+        .catch(err => {
+            $('js-error-message').text(`Something went wrong: ${err.message}`);
+        });
+    
+    fetch(getURL[4])
+        .then(response => {
+            if(response.ok){
+                return response.json();
+            }
+            throw new Error(response.statusText);
+        })
+        .then(responseFive => recipeInfo.push(responseFive))
+        .catch(err => {
+            $('js-error-message').text(`Something went wrong: ${err.message}`);
+        });
+
+    fetch(getURL[5])
+        .then(response => {
+            if(response.ok){
+                return response.json();
+            }
+            throw new Error(response.statusText);
+        })
+        .then(responseSix => recipeInfo.push(responseSix))
+        .catch(err => {
+            $('js-error-message').text(`Something went wrong: ${err.message}`);
+        });
+
+    fetch(getURL[6])
+        .then(response => {
+            if(response.ok){
+                return response.json();
+            }
+            throw new Error(response.statusText);
+        })
+        .then(responseSeven => recipeInfo.push(responseSeven))
+        .catch(err => {
+            $('js-error-message').text(`Something went wrong: ${err.message}`);
+        });
+
+    fetch(getURL[7])
+        .then(response => {
+            if(response.ok){
+                return response.json();
+            }
+            throw new Error(response.statusText);
+        })
+        .then(responseEight => recipeInfo.push(responseEight))
+        .catch(err => {
+            $('js-error-message').text(`Something went wrong: ${err.message}`);
+        });
+
+    fetch(getURL[8])
+        .then(response => {
+            if(response.ok){
+                return response.json();
+            }
+            throw new Error(response.statusText);
+        })
+        .then(responseNine => recipeInfo.push(responseNine))
+        .catch(err => {
+            $('js-error-message').text(`Something went wrong: ${err.message}`);
+        });
+
+    fetch(getURL[9])
+        .then(response => {
+            if(response.ok){
+                return response.json();
+            }
+            throw new Error(response.statusText);
+        })
+        .then(responseTen => recipeInfo.push(responseTen))
+        .catch(err => {
+            $('js-error-message').text(`Something went wrong: ${err.message}`);
+        });
 
     console.log(recipeInfo);
     displayResults(recipeInfo);
-}
-
-//FIXME: (maybe) Get Recipes GET request to the Yummly API.
-function getRecipes(getURL) {
-    
-   //Run a fetch for each of the URLs in the array.
-    for(let i=0; i<getURL.length; i++) {
-        fetch(getURL[i])
-            .then(response => {
-                if(response.ok){
-                    return response.json();
-                }
-                throw new Error(response.statusText);
-            })
-            .then(responseJsonYummlyTwo => newRecipeArray(responseJsonYummlyTwo))
-            .catch(err => {
-                $('js-error-message').text(`Something went wrong: ${err.message}`);
-            });
-    }
 }
 
 //Create array of urls to feed into the get recipes endpoint of Yummly API.
