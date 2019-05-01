@@ -25,9 +25,7 @@ function formatQueryParamsSearchRecipes(searchParams) {
 }
 
 //FIXME: Uses recipeInfo array to display results in the DOM. 
-//FIXME: Also need to figure out how to display images. currently it isn't working.
 function displayResults(recipeInfo){
-
     $('#js-recipe-results-list').empty();
 
     for(let i=0; i<recipeInfo.length; i++) {
@@ -35,9 +33,9 @@ function displayResults(recipeInfo){
             `<li><img src="${recipeInfo[i].images[0].hostedLargeUrl}">
             <h3><a href="${recipeInfo[i].attribution.url}" target="_blank">${recipeInfo[i].name}</a></h3>
             </li>`
-        )};
-    $('#results').removeClass('hidden');
+    )};
 
+    $('#results').removeClass('hidden');
     console.log('You can now eat all the things.');
 }
 
