@@ -56,12 +56,10 @@ function newRecipeArray(responseJsonYummlyTwo) {
     displayResults(recipeInfo);
 }
 
-//Get Recipes GET request to the Yummly API.
+//FIXME: (maybe) Get Recipes GET request to the Yummly API.
 function getRecipes(getURL) {
     
-    let responseJsonYummlyTwo = [];
-    
-    //Run a fetch for each of the URLs in the array.
+   //Run a fetch for each of the URLs in the array.
     for(let i=0; i<getURL.length; i++) {
         fetch(getURL[i])
             .then(response => {
