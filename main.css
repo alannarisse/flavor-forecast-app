@@ -1,3 +1,61 @@
+/* All browser sizes */
+* {
+    box-sizing: border-box;
+}
+
 .hidden {
     display: none;
+}
+
+/* Mobile First */
+@media only screen and (min-width: 200px) {
+    body {
+        max-width: 275px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+
+    .button {
+        border: 0px;
+        padding: 0px;
+        height: 20px;
+        width: 75px;
+        background-color: lightgray;
+        font-weight: bold;
+    }
+
+    #refresh-button {
+        width: 150px;
+    }
+
+    section {
+        margin-top: 30px;
+    }
+
+    img {
+        width: 255px;
+    }
+
+    .refresh-form {
+        margin-top: 30px;
+    }
+
+    .search-weather {
+        width: 175px;
+        margin-right: 8px;
+        border: 1px solid lightgray;
+        height: 20px;
+    }
+}
+
+/* Desktop */
+@media only screen and (min-width: 750px) {
+    body {
+        max-width: 500px;
+    }
+
+    img {
+        width: 500px;
+    }
 }

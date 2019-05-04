@@ -40,9 +40,10 @@ function displayResults(recipeJsonResponse){
 
     $('#js-recipe-results-list').append(
         `<img src="${recipeJsonResponse.images[0].hostedLargeUrl}"><br>
-        <p><a href="${recipeJsonResponse.attribution.url}" target="_blank">${recipeJsonResponse.name}</a></p>`)   
+        <h3><a href="${recipeJsonResponse.attribution.url}" target="_blank">${recipeJsonResponse.name}</a></h3>`)   
 
     $('#results').removeClass('hidden');
+    $('#js-subhead').addClass('hidden');
     console.log('You can now cook a suggested recipe!.');
 
     watchRefreshButton();

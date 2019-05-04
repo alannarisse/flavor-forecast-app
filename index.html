@@ -18,15 +18,15 @@
         <div>
             <header>
                 <h1>FLAVOR FORECAST</h1>
-                <p>Give us your zip code and we'll suggest a recipe based on the weather forecast in your area.</p>
+                <p id="js-subhead">Give us your zip code and we'll suggest a recipe based on the weather forecast in your area.</p>
             </header>
 
             <!--Search Form-->
             <form id="js-form">
                 <label for="search-weather"></label>
-                <input type="text" name="search-weather" id="js-search-weather" placeholder="zip code" required>
+                <input type="text" name="search-weather" id="js-search-weather" placeholder="zip code" class="search-weather" required>
 
-                <input type="submit" value="Search">
+                <input type="submit" value="Search" id="start-button" class="button">
             </form>
 
             <!--Error Message-->
@@ -38,9 +38,9 @@
                 <div id="js-recipe-results-list"></div>
 
                 <!--Refresh The Page & Get a New Result (Coming Later)-->
-                <form id="js-refresh-form">
-                    <p>Not what you're looking for?</p>
-                    <input type="submit" value="Find Something Else">
+                <form id="js-refresh-form" class="refresh-form">
+                    <p>Not what you're craving?</p>
+                    <input type="submit" value="Find Something Else" id="refresh-button" class="button">
                 </form>
             </section>
         </div>
