@@ -24,6 +24,16 @@ function formatQueryParamsSearchRecipes(searchParams) {
     return queryItems.join('&');
 }
 
+//Watches for find something else button to be clicked 
+//and reruns the API to pull a different recipe suggestion.
+function watchrefreshButton() {
+    $('#js-refresh-form').submit(event => {
+        event.preventDefault();
+        const queryWeather = $('#js-search-weather').val();
+        getWeather(queryWeather);
+    });
+}
+
 //Displays random result in the DOM. 
 function displayResults(recipeJsonResponse){  
     $('#js-recipe-results-list').empty();
