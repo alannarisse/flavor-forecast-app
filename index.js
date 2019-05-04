@@ -24,155 +24,38 @@ function formatQueryParamsSearchRecipes(searchParams) {
     return queryItems.join('&');
 }
 
-//FIXME: Uses recipeInfo array to display results in the DOM. 
-function displayResults(recipeInfo){  
+//Displays random result in the DOM. 
+function displayResults(recipeJsonResponse){  
     $('#js-recipe-results-list').empty();
 
     $('#js-recipe-results-list').append(
-        `<li>${recipeInfo[0].name}</li>`
-)
-
-    for(let i=1; i<recipeInfo.length; i++) {
-        $('#js-recipe-results-list').append(
-            `<li>${recipeInfo[i].name}</li>`
-    )};
+        `<img src="${recipeJsonResponse.images[0].hostedLargeUrl}"><br>
+        <p><a href="${recipeJsonResponse.attribution.url}" target="_blank">${recipeJsonResponse.name}</a></p>`)   
 
     $('#results').removeClass('hidden');
-    console.log('You can now eat all the things.');
+    console.log('You can now cook a suggested recipe!.');
+
+    watchRefreshButton();
 }
 
 //Get Recipes GET request to the Yummly API.
-function getRecipes(getURL) {
-    
-    //Will feed the JSON objects into this empty aray.
-    const recipeInfo = [];
+function getRecipes(randomURL) {
 
    //Run a fetch for each of the URLs in the array. 
-    fetch(getURL[0])
+    fetch(randomURL)
         .then(response => {
             if(response.ok){
                 return response.json();
             }
             throw new Error(response.statusText);
         })
-        .then(responseOne => recipeInfo.push({name: responseOne.name, url: responseOne.attribution.url, image: responseOne.images[0].hostedLargeUrl}))
+        .then(recipeJsonResponse => displayResults(recipeJsonResponse))
         .catch(err => {
             $('js-error-message').text(`Something went wrong: ${err.message}`);
         });
-
-    fetch(getURL[1])
-        .then(response => {
-            if(response.ok){
-                return response.json();
-            }
-            throw new Error(response.statusText);
-        })
-        .then(responseTwo => recipeInfo.push({name: responseTwo.name, url: responseTwo.attribution.url, image: responseTwo.images[0].hostedLargeUrl}))
-        .catch(err => {
-            $('js-error-message').text(`Something went wrong: ${err.message}`);
-        });
-    
-    fetch(getURL[2])
-        .then(response => {
-            if(response.ok){
-                return response.json();
-            }
-            throw new Error(response.statusText);
-        })
-        .then(responseThree => recipeInfo.push({name: responseThree.name, url: responseThree.attribution.url, image: responseThree.images[0].hostedLargeUrl}))
-        .catch(err => {
-            $('js-error-message').text(`Something went wrong: ${err.message}`);
-        });
-    
-    fetch(getURL[3])
-        .then(response => {
-            if(response.ok){
-                return response.json();
-            }
-            throw new Error(response.statusText);
-        })
-        .then(responseFour => recipeInfo.push({name: responseFour.name, url: responseFour.attribution.url, image: responseFour.images[0].hostedLargeUrl}))
-        .catch(err => {
-            $('js-error-message').text(`Something went wrong: ${err.message}`);
-        });
-    
-    fetch(getURL[4])
-        .then(response => {
-            if(response.ok){
-                return response.json();
-            }
-            throw new Error(response.statusText);
-        })
-        .then(responseFive => recipeInfo.push({name: responseFive.name, url: responseFive.attribution.url, image: responseFive.images[0].hostedLargeUrl}))
-        .catch(err => {
-            $('js-error-message').text(`Something went wrong: ${err.message}`);
-        });
-
-    fetch(getURL[5])
-        .then(response => {
-            if(response.ok){
-                return response.json();
-            }
-            throw new Error(response.statusText);
-        })
-        .then(responseSix => recipeInfo.push({name: responseSix.name, url: responseSix.attribution.url, image: responseSix.images[0].hostedLargeUrl}))
-        .catch(err => {
-            $('js-error-message').text(`Something went wrong: ${err.message}`);
-        });
-
-    fetch(getURL[6])
-        .then(response => {
-            if(response.ok){
-                return response.json();
-            }
-            throw new Error(response.statusText);
-        })
-        .then(responseSeven => recipeInfo.push({name: responseSeven.name, url: responseSeven.attribution.url, image: responseSeven.images[0].hostedLargeUrl}))
-        .catch(err => {
-            $('js-error-message').text(`Something went wrong: ${err.message}`);
-        });
-
-    fetch(getURL[7])
-        .then(response => {
-            if(response.ok){
-                return response.json();
-            }
-            throw new Error(response.statusText);
-        })
-        .then(responseEight => recipeInfo.push({name: responseEight.name, url: responseEight.attribution.url, image: responseEight.images[0].hostedLargeUrl}))
-        .catch(err => {
-            $('js-error-message').text(`Something went wrong: ${err.message}`);
-        });
-
-    fetch(getURL[8])
-        .then(response => {
-            if(response.ok){
-                return response.json();
-            }
-            throw new Error(response.statusText);
-        })
-        .then(responseNine => recipeInfo.push({name: responseNine.name, url: responseNine.attribution.url, image: responseNine.images[0].hostedLargeUrl}))
-        .catch(err => {
-            $('js-error-message').text(`Something went wrong: ${err.message}`);
-        });
-
-    fetch(getURL[9])
-        .then(response => {
-            if(response.ok){
-                return response.json();
-            }
-            throw new Error(response.statusText);
-        })
-        .then(responseTen => recipeInfo.push({name: responseTen.name, url: responseTen.attribution.url, image: responseTen.images[0].hostedLargeUrl}))
-        .catch(err => {
-            $('js-error-message').text(`Something went wrong: ${err.message}`);
-        });
-
-    console.log(recipeInfo);
-    displayResults(recipeInfo);
 }
 
-//Create array of urls to feed into the get recipes endpoint of Yummly API.
+//Create an array of urls to feed into the GET recipes endpoint of Yummly API.
 function createRecipeUrls(recipeArray) {
     let getURL = [
         getRecipesURL + recipeArray[0] + '?_app_id=' + foodAPIId + '&_app_key=' + foodAPIKey,
@@ -188,7 +71,11 @@ function createRecipeUrls(recipeArray) {
     ];
 
     console.log(getURL);
-    getRecipes(getURL);
+
+    //Selects a random URL from the array and feeds it to the GET recipes endpoint of Yummly API. 
+    let randomURL = getURL[Math.floor(Math.random()*getURL.length)];
+    console.log(randomURL);
+    getRecipes(randomURL);
 }
 
 //Create array of objects containing recipe ID for each search result.
