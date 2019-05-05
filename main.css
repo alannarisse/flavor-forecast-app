@@ -10,16 +10,21 @@
 /* Mobile First */
 @media only screen and (min-width: 200px) {
     body {
-        max-width: 275px;
-        margin-left: auto;
-        margin-right: auto;
-        text-align: center;
+        margin: 0;
+        padding: 0;
         font-family: basic-sans, sans-serif;
         font-size: 20px;
         font-style: normal;
         font-weight: 200;
-        color: #201C1D; 
-        border-image: url(images/border.png) 25 25 round;
+        color: #201C1D;
+        background-image: url("images/border.png");
+    }
+
+    .page-width {
+        max-width: 275px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
     }
 
     .button {
@@ -68,15 +73,16 @@
         font-weight: 400;
         color: #201C1D;
         line-height: 100%;
+        margin-top: 75px;
     }
 }
 
 /* Desktop */
 @media only screen and (min-width: 750px) {
-    body {
+    .page-width {
         max-width: 500px;
     }
-
+    
     img {
         width: 500px;
     }
