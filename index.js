@@ -30,7 +30,7 @@ function displayResults(recipeJsonResponse){
     $('#js-recipe-results-list').empty();
 
     $('#js-recipe-results-list').append(
-        `<section class="background-box"><img src="${recipeJsonResponse.images[0].hostedLargeUrl}"></section><br>
+        `<section class="background-box"><img src="${recipeJsonResponse.images[0].hostedLargeUrl}"></section>
         <h3><a href="${recipeJsonResponse.attribution.url}" target="_blank">${recipeJsonResponse.name}</a></h3>`)   
 
     $('#results').removeClass('hidden');

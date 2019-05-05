@@ -30,7 +30,7 @@
     .button {
         border: 0px;
         padding: 0px;
-        height: 20px;
+        height: 30px;
         width: 75px;
         background-color: #FFF15D;
         font-weight: bold;
@@ -38,16 +38,8 @@
         border-radius: 1px;
     }
 
-    .button:hover { 
-        background-color: #CFE7CF;
-      }
-
     #refresh-button {
-        width: 150px;
-    }
-
-    section {
-        margin-top: 30px;
+        width: 200px;
     }
 
     img {
@@ -64,24 +56,26 @@
 
     .background-box {
         background-color: #CFE7CF;
-        margin-top: 50px;
+        margin-top: 30px;
     }
 
     .refresh-form {
-        margin-top: 30px;
+        margin-top: 5px;
         margin-bottom: 75px;
+        border-top: 1px solid #C9C7C7;
     }
 
     .search-weather {
         width: 175px;
         margin-right: 8px;
         border: 1px solid #C9C7C7;
-        height: 20px;
+        height: 30px;
         border-radius: 1px;
     }
 
     .weather-form {
         margin-top: 40px;
+        margin-bottom: 45px;
     }
 
     h1 {
@@ -99,6 +93,38 @@
         font-weight: 400;
         font-style: normal;
     }
+
+    a {
+        color: #201C1D;
+        text-decoration: none;
+        font-size: 22px;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    .recipe-results {
+        border-bottom: 1px solid #C9C7C7;
+    }
+
+    #results {
+        border-top: 1px solid #C9C7C7;
+    }
+
+    .line-box {
+        border-top: 1px solid #C9C7C7;
+        margin-top: 5px;
+    }
+
+    h3 {
+        margin-bottom: 35px;
+    }
+
+    .new-recipe {
+        margin-top: 30px;
+        font-size: 15px;
+    }
 }
 
 /* Desktop */
@@ -110,4 +136,12 @@
     img {
         width: 500px;
     }
+
+    img:hover{
+        width: 520px;
+    }
+
+    .button:hover { 
+        background-color: #CFE7CF;
+      }
 }
