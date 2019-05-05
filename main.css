@@ -14,6 +14,12 @@
         margin-left: auto;
         margin-right: auto;
         text-align: center;
+        font-family: basic-sans, sans-serif;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 200;
+        color: #201C1D; 
+        border-image: url(images/border.png) 25 25 round;
     }
 
     .button {
@@ -21,8 +27,10 @@
         padding: 0px;
         height: 20px;
         width: 75px;
-        background-color: lightgray;
+        background-color: #FFF15D;
         font-weight: bold;
+        font-size: 12px;
+        border-radius: 1px;
     }
 
     #refresh-button {
@@ -44,8 +52,22 @@
     .search-weather {
         width: 175px;
         margin-right: 8px;
-        border: 1px solid lightgray;
+        border: 1px solid #C9C7C7;
         height: 20px;
+        border-radius: 1px;
+    }
+
+    .weather-form {
+        margin-top: 40px;
+    }
+
+    h1 {
+        font-family: continuo, sans-serif;
+        font-size: 50px;
+        font-style: normal;
+        font-weight: 400;
+        color: #201C1D;
+        line-height: 100%;
     }
 }
 

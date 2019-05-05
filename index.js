@@ -1,12 +1,3 @@
-/*
-
-HELPFUL LINKS:
-    -   Yummly API Documentation: https://developer.yummly.com/documentation
-    -   Open Weather Map API Documentation: https://openweathermap.org/current
-    -   Visual Inspo: https://www.loveandlemons.com/
-
-*/
-
 'use strict';
 
 /////////////////////////// YUMMLY API CODE  ///////////////////////////
@@ -44,7 +35,7 @@ function displayResults(recipeJsonResponse){
 
     $('#results').removeClass('hidden');
     $('#js-subhead').addClass('hidden');
-    console.log('You can now cook a suggested recipe!.');
+    console.log('You can now cook a suggested recipe!');
 
     watchRefreshButton();
 }
