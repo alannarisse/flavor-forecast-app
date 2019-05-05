@@ -38,6 +38,10 @@
         border-radius: 1px;
     }
 
+    .button:hover { 
+        background-color: #CFE7CF;
+      }
+
     #refresh-button {
         width: 150px;
     }
@@ -48,10 +52,24 @@
 
     img {
         width: 255px;
+        transform: rotate(5deg);
+        -webkit-transform: rotate(5deg);
+        -moz-transform: rotate(5deg);
+        -o-transform: 0.70s;
+        -ms-transform: rotate(5deg);
+        -webkit-box-shadow: 6px 6px 19px -12px rgba(0,0,0,0.48);
+        -moz-box-shadow: 6px 6px 19px -12px rgba(0,0,0,0.48);
+        box-shadow: 6px 6px 19px -12px rgba(0,0,0,0.48);
+    }
+
+    .background-box {
+        background-color: #CFE7CF;
+        margin-top: 50px;
     }
 
     .refresh-form {
         margin-top: 30px;
+        margin-bottom: 75px;
     }
 
     .search-weather {
@@ -74,6 +92,12 @@
         color: #201C1D;
         line-height: 100%;
         margin-top: 75px;
+    }
+
+    h2, h3 {
+        font-family: yrsa, serif;
+        font-weight: 400;
+        font-style: normal;
     }
 }
 
