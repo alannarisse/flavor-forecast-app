@@ -94,6 +94,12 @@
         margin-top: 75px;
     }
 
+    h2 {
+        border-top: 1px solid #C9C7C7;   
+        margin-top: 5px;
+        padding-top: 30px;
+    }
+
     header, .weather-form {
         animation-duration: 2s;
         animation-name: fadein;
@@ -122,6 +128,7 @@
 
     .recipe-results {
         border-bottom: 1px solid #C9C7C7;
+        margin-top: 35px;
     }
 
     #results {
@@ -133,6 +140,7 @@
     }
 
     h3 {
+        margin-top: 35px;
         margin-bottom: 35px;
     }
 
