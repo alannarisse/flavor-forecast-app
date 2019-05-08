@@ -1,4 +1,3 @@
-/* All browser sizes */
 * {
     box-sizing: border-box;
 }
@@ -7,153 +6,157 @@
     display: none;
 }
 
-/* Mobile First */
-@media only screen and (min-width: 200px) {
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: basic-sans, sans-serif;
-        font-size: 20px;
-        font-style: normal;
-        font-weight: 200;
-        color: #201C1D;
-        background-image: url("images/border.png");
-    }
+body {
+    margin: 0;
+    padding: 0;
+    font-family: basic-sans, sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 200;
+    color: #201C1D;
+    background-image: url("images/border.png");
+}
 
+.page-width {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+h1 {
+    font-family: continuo, sans-serif;
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 400;
+    color: #201C1D;
+    line-height: 100%;
+    margin-top: 75px;
+}
+
+.weather-form {
+    margin-top: 40px;
+    margin-bottom: 45px;
+}
+
+header, .weather-form {
+    animation-duration: 3s;
+    animation-name: fadein;
+}
+
+@keyframes fadein {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+.search-weather {
+    width: 175px;
+    margin-right: 8px;
+    border: 1px solid #C9C7C7;
+    height: 30px;
+    border-radius: 1px;
+}
+
+input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.button {
+    border: 0px;
+    padding: 0px;
+    height: 30px;
+    width: 75px;
+    background-color: #FFF15D;
+    font-weight: bold;
+    font-size: 12px;
+    border-radius: 1px;
+}
+
+#results {
+    border-top: 1px solid #C9C7C7;
+}
+
+h2 {
+    border-top: 1px solid #C9C7C7;   
+    margin-top: 5px;
+    padding-top: 30px;
+}
+
+h2, h3 {
+    font-family: yrsa, serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.recipe-results {
+    border-bottom: 1px solid #C9C7C7;
+    margin-top: 35px;
+}
+
+.background-box {
+    background-color: #CFE7CF;
+    margin-top: 5px;
+}
+
+img {
+    transform: rotate(5deg);
+    -webkit-transform: rotate(5deg);
+    -moz-transform: rotate(5deg);
+    -o-transform: 0.70s;
+    -ms-transform: rotate(5deg);
+    -webkit-box-shadow: 6px 6px 19px -12px rgba(0,0,0,0.48);
+    -moz-box-shadow: 6px 6px 19px -12px rgba(0,0,0,0.48);
+    box-shadow: 6px 6px 19px -12px rgba(0,0,0,0.48);
+}
+
+h3 {
+    margin-top: 35px;
+    margin-bottom: 35px;
+}
+
+a {
+    color: #201C1D;
+    text-decoration: none;
+    font-size: 22px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.refresh-form {
+    margin-top: 5px;
+    margin-bottom: 75px;
+    border-top: 1px solid #C9C7C7;
+}
+
+.new-recipe {
+    margin-top: 30px;
+    font-size: 15px;
+}
+
+#refresh-button {
+    width: 200px;
+}
+
+@media only screen and (min-width: 200px) {
     .page-width {
         max-width: 275px;
-        margin-left: auto;
-        margin-right: auto;
-        text-align: center;
-    }
-
-    input {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-    }
-
-    .button {
-        border: 0px;
-        padding: 0px;
-        height: 30px;
-        width: 75px;
-        background-color: #FFF15D;
-        font-weight: bold;
-        font-size: 12px;
-        border-radius: 1px;
-    }
-
-    #refresh-button {
-        width: 200px;
     }
 
     img {
         width: 255px;
-        transform: rotate(5deg);
-        -webkit-transform: rotate(5deg);
-        -moz-transform: rotate(5deg);
-        -o-transform: 0.70s;
-        -ms-transform: rotate(5deg);
-        -webkit-box-shadow: 6px 6px 19px -12px rgba(0,0,0,0.48);
-        -moz-box-shadow: 6px 6px 19px -12px rgba(0,0,0,0.48);
-        box-shadow: 6px 6px 19px -12px rgba(0,0,0,0.48);
-    }
-
-    .background-box {
-        background-color: #CFE7CF;
-        margin-top: 30px;
-    }
-
-    .refresh-form {
-        margin-top: 5px;
-        margin-bottom: 75px;
-        border-top: 1px solid #C9C7C7;
-    }
-
-    .search-weather {
-        width: 175px;
-        margin-right: 8px;
-        border: 1px solid #C9C7C7;
-        height: 30px;
-        border-radius: 1px;
-    }
-
-    .weather-form {
-        margin-top: 40px;
-        margin-bottom: 45px;
-    }
-
-    h1 {
-        font-family: continuo, sans-serif;
-        font-size: 50px;
-        font-style: normal;
-        font-weight: 400;
-        color: #201C1D;
-        line-height: 100%;
-        margin-top: 75px;
-    }
-
-    h2 {
-        border-top: 1px solid #C9C7C7;   
-        margin-top: 5px;
-        padding-top: 30px;
-    }
-
-    header, .weather-form {
-        animation-duration: 3s;
-        animation-name: fadein;
-    }
-
-    @keyframes fadein {
-        from {opacity: 0;}
-        to {opacity: 1;}
-    }
-
-    h2, h3 {
-        font-family: yrsa, serif;
-        font-weight: 400;
-        font-style: normal;
-    }
-
-    a {
-        color: #201C1D;
-        text-decoration: none;
-        font-size: 22px;
-    }
-
-    a:hover {
-        text-decoration: underline;
-    }
-
-    .recipe-results {
-        border-bottom: 1px solid #C9C7C7;
-        margin-top: 35px;
-    }
-
-    #results {
-        border-top: 1px solid #C9C7C7;
-    }
-
-    .background-box {
-        margin-top: 5px;
-    }
-
-    h3 {
-        margin-top: 35px;
-        margin-bottom: 35px;
-    }
-
-    .new-recipe {
-        margin-top: 30px;
-        font-size: 15px;
     }
 }
 
-/* Desktop */
 @media only screen and (min-width: 750px) {
     .page-width {
         max-width: 500px;
+    }
+
+    .button:hover { 
+        background-color: #CFE7CF;
     }
     
     img {
@@ -165,8 +168,4 @@
         width: 520px;
         transform: scale(1.1);
     }
-
-    .button:hover { 
-        background-color: #CFE7CF;
-      }
 }

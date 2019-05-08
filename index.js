@@ -1,22 +1,18 @@
 'use strict';
 
-/////////////////////////// YUMMLY API CODE  ///////////////////////////
+/////////////////////////// YUMMLY API ///////////////////////////
 
-//Sets up the Yummly API key and base URL for use later.
 const foodAPIKey = 'aadffa2b9aa15de8d665d0e2fc535945';
 const foodAPIId = '395836df';
 const searchRecipesURL = 'https://api.yummly.com/v1/api/recipes';
 const getRecipesURL = 'https://api.yummly.com/v1/api/recipe/';
 
-//Converts the searchParams object into URL format. 
 function formatQueryParamsSearchRecipes(searchParams) {
     const queryItems = Object.keys(searchParams)
         .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(searchParams[key])}`)
     return queryItems.join('&');
 }
 
-//Watches for find something else button to be clicked 
-//and reruns the API to pull a different recipe suggestion.
 function watchrefreshButton() {
     $('#js-refresh-form').submit(event => {
         event.preventDefault();
@@ -25,7 +21,6 @@ function watchrefreshButton() {
     });
 }
 
-//Displays random result in the DOM. 
 function displayResults(recipeJsonResponse){  
     $('#js-recipe-results-list').empty();
     $('#js-error-message').empty();
@@ -41,10 +36,7 @@ function displayResults(recipeJsonResponse){
     watchRefreshButton();
 }
 
-//Get Recipes GET request to the Yummly API.
 function getRecipes(randomURL) {
-
-   //Run a fetch for each of the URLs in the array. 
     fetch(randomURL)
         .then(response => {
             if(response.ok){
@@ -58,7 +50,6 @@ function getRecipes(randomURL) {
         });
 }
 
-//Create an array of urls to feed into the GET recipes endpoint of Yummly API.
 function createRecipeUrls(recipeArray) {
     let getURL = [
         getRecipesURL + recipeArray[0] + '?_app_id=' + foodAPIId + '&_app_key=' + foodAPIKey,
@@ -74,18 +65,16 @@ function createRecipeUrls(recipeArray) {
     ];
 
     console.log(getURL);
-
-    //Selects a random URL from the array and feeds it to the GET recipes endpoint of Yummly API. 
+ 
     let randomURL = getURL[Math.floor(Math.random()*getURL.length)];
+
     console.log(randomURL);
     getRecipes(randomURL);
 }
 
-//Create array of objects containing recipe ID for each search result.
 function createRecipeArray(responseJsonYummlyOne) {
     console.log(responseJsonYummlyOne);
 
-    //Brings what's needed from the search recipes endpoint JSON object into one place.
     let recipeArray = [
         responseJsonYummlyOne.matches[0].id, responseJsonYummlyOne.matches[1].id,
         responseJsonYummlyOne.matches[2].id, responseJsonYummlyOne.matches[3].id,
@@ -98,22 +87,17 @@ function createRecipeArray(responseJsonYummlyOne) {
     createRecipeUrls(recipeArray);
 }
 
-//GET request to the search recipes endpoint of Yummly API.
 function searchRecipes(foodQuery) {
-
-    //Sets up parameters for search endpoint. 
     const searchParams = {
         _app_id: foodAPIId,
         _app_key: foodAPIKey,
         q: foodQuery,
     };
 
-    //Passes parameters through format function and creates a search URL.
     const searchRecipesQueryString = formatQueryParamsSearchRecipes(searchParams);
     const searchURL = searchRecipesURL + '?' + searchRecipesQueryString;
     console.log(searchURL);
 
-    //Makes GET reuqest with the URL as an argument.
     fetch (searchURL)
         .then(response => {
             if(response.ok) {
@@ -129,26 +113,20 @@ function searchRecipes(foodQuery) {
 
 
 
-/////////////////////////// WEATHER API CODE  ///////////////////////////
+/////////////////////////// WEATHER API ///////////////////////////
 
-//Sets up the OpenWeatherMap API key and base URL for use later.
 const weatherAPIKey = '2f7a503fe0fd1f5d22571fdf7757e5f4';
 const weatherURL = 'https://api.openweathermap.org/data/2.5/weather';
 
-//Converts the weatherParams object into URL format.
 function formatQueryWeatherParams(weatherParams) {
     const queryItems = Object.keys(weatherParams)
         .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(weatherParams[key])}`)
     return queryItems.join('&');
 }
 
-//Sends query to Yummly API based on logged weather.
 function queryContents(triggerFoodQuery) {
-    
-    //Set up a variable for later.
     let foodQuery;
     
-    //Assigns query string based on temperature logged in console.
     if(triggerFoodQuery >= 80) {
         foodQuery = 'summer';
     }
@@ -166,33 +144,25 @@ function queryContents(triggerFoodQuery) {
     searchRecipes(foodQuery);
 }
 
-//Logs temp to the console.
 function logWeatherResults(responseJsonWeather) {
     console.log(responseJsonWeather);
 
     let triggerFoodQuery = responseJsonWeather.main.temp;
     console.log('Current temp: ' + triggerFoodQuery);
-
     queryContents(triggerFoodQuery);
 }
 
-//GET request for Weather API.
 function getWeather(query) {
-    
-    //Sets up parameters for Weather API.
     const weatherParams = {
         APPID: weatherAPIKey,
         zip: query,
         units: 'imperial',
     };
 
-    //Passes parameters through format function and creates a search URL.
     const searchWeatherQueryString = formatQueryWeatherParams(weatherParams);
     const searchWeatherURL = weatherURL + '?' + searchWeatherQueryString;
-
     console.log(searchWeatherURL);
 
-    //Makes GET request with the URL as an argument.
     fetch (searchWeatherURL)
         .then(response => {
             if(response.ok) {
@@ -206,7 +176,6 @@ function getWeather(query) {
         });
 }
 
-//Watch form submission for zip code.
 function watchForm() {
     $('form').submit(event => {
         event.preventDefault();
@@ -215,5 +184,4 @@ function watchForm() {
     });
 }
 
-//Triggers function when page loads.
 $(watchForm);
