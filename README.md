@@ -21,4 +21,4 @@ Results:
 
 ## Demo
 
-- [Live Demo](https://legsateri.github.io/api-hack-capstone/)
+- [Live Demo](https://legsateri.github.io/flavor-forecast-app/)
