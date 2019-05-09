@@ -30,8 +30,13 @@ function displayResults(recipeJsonResponse){
     $('#js-error-message').empty();
 
     $('#js-recipe-results-list').append(
-        `<section class="background-box"><a href="${recipeJsonResponse.attribution.url}" target="_blank"><img src="${recipeJsonResponse.images[0].hostedLargeUrl}"></a></section>
-        <h3><a href="${recipeJsonResponse.attribution.url}" target="_blank">${recipeJsonResponse.name}</a></h3>`)   
+        `<section class="background-box">
+            <a href="${recipeJsonResponse.source.sourceRecipeUrl}" target="_blank">
+                <img src="${recipeJsonResponse.images[0].hostedLargeUrl}" alt="delicious food recipe">
+            </a>
+        </section>
+        <h3><a href="${recipeJsonResponse.source.sourceRecipeUrl}" target="_blank">
+        ${recipeJsonResponse.name}</a></h3>`)   
 
     $('#results').removeClass('hidden');
     $('#js-subhead').addClass('hidden');
