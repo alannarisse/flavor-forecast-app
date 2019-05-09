@@ -176,7 +176,7 @@ function searchRecipes(foodQuery) {
         })
         .then(responseJsonYummlyOne => createRecipeArray(responseJsonYummlyOne))
         .catch(err => {
-            $('#js-error-message').text(`Something went wrong: ${err.message}`);
+            $('#js-error-message').text(`We're having a bit of trouble. Please try again.`);
         });
 }
 
@@ -247,7 +247,7 @@ function getWeather(query) {
         })
         .then(responseJsonWeather => logWeatherResults(responseJsonWeather))
         .catch(err => {
-            $('#js-error-message').text(`Something went wrong: ${err.message}`);
+            $('#js-error-message').text(`That zip code cannot be found.`);
         });
 }
 
