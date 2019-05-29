@@ -22,3 +22,6 @@ Results:
 ## Demo
 
 - [Live Demo](https://legsateri.github.io/flavor-forecast-app/)
+
+
+Thank you!
